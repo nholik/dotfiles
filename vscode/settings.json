@@ -1,0 +1,10 @@
+{
+    "workbench.startupEditor": "newUntitledFile",
+    "editor.lineNumbers": "relative",
+    "vim.easymotion": true,
+    "vim.useSystemClipboard": true,
+    "vim.leader": "<space>",
+    "vim.handleKeys": {
+        "<C-w>" :false
+    }
+}
