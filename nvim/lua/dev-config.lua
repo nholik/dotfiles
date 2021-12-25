@@ -1,5 +1,31 @@
 local function setup_dev()
     require('nvim_comment').setup()
+    -- local saga = require 'lspsaga'
+    -- saga.init_lsp_saga {}
+    require('nvim-treesitter.configs').setup({
+        -- One of "all", "maintained" (parsers with maintainers), or a list of languages
+        ensure_installed = "maintained",
+
+        -- Install languages synchronously (only applied to `ensure_installed`)
+        sync_install = false,
+
+        -- List of parsers to ignore installing
+        -- ignore_install = {"javascript"},
+
+        highlight = {
+            -- `false` will disable the whole extension
+            enable = true,
+
+            -- list of language that will be disabled
+            -- disable = {"c", "rust"},
+
+            -- Setting this to true will run `:h syntax` and tree-sitter at the same time.
+            -- Set this to `true` if you depend on 'syntax' being enabled (like for indentation).
+            -- Using this option may slow down your editor, and you may see some duplicate highlights.
+            -- Instead of true it can also be a list of languages
+            additional_vim_regex_highlighting = false
+        }
+    })
 
     USER = vim.fn.expand('$USER')
     local sumneko_root_path = "/home/" .. USER .. "/.config/nvim/lua-language-server"
@@ -17,7 +43,7 @@ local function setup_dev()
     end
     -- omnisharp lsp config
     local pid = vim.fn.getpid()
-    local omnisharp_bin = "/home/max/bin/omnisharp-roslyn/run"
+    local omnisharp_bin = "/home/" .. USER .. "/bin/omnisharp-roslyn/run"
 
     local on_attach = function(_, bufnr)
         local function buf_set_keymap(...)

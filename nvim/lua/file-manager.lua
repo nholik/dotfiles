@@ -21,7 +21,7 @@ local function setup_file_manager()
             width = 30,
             height = 30,
             hide_root_folder = false,
-            side = 'left',
+            side = 'right',
             auto_resize = false,
             mappings = {custom_only = false, list = {}},
             number = false,

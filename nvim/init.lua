@@ -16,25 +16,11 @@ vim.cmd [[
   colorscheme material
 ]]
 
-local use = require('packer').use
+vim.api.nvim_set_keymap("n", ">", "gt", {noremap = true})
+vim.api.nvim_set_keymap("n", "<", "gT", {noremap = true})
 
-require('packer').startup(function()
-    -- Packer can manage itself
-    use 'wbthomason/packer.nvim'
-    use 'marko-cerovac/material.nvim'
-    use "terrortylor/nvim-comment"
-    use 'kyazdani42/nvim-web-devicons' -- for file icons
-    use {'nvim-lualine/lualine.nvim', requires = {'kyazdani42/nvim-web-devicons', opt = true}}
-    use 'jacoborus/tender.vim'
-    use 'kyazdani42/nvim-tree.lua'
-    use {'nvim-telescope/telescope.nvim', requires = {{'nvim-lua/plenary.nvim'}}}
-    use 'neovim/nvim-lspconfig'
-    use 'hrsh7th/nvim-cmp'
-    use 'hrsh7th/cmp-nvim-lsp'
-    use 'saadparwaiz1/cmp_luasnip' -- Snippets source for nvim-cmp
-    use 'L3MON4D3/LuaSnip' -- Snippets plugin
-end)
-
+require('plugins')
+require('utils')
 require('theme')
 require('file-manager')
 require('dev-config')
