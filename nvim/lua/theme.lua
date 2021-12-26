@@ -1,5 +1,6 @@
 local function setup_theme()
-    require'lualine'.setup({options = {theme = 'material-nvim'}})
+    require'feline'.setup({})
+
     require'material'.setup({
 
         contrast = true, -- Enable contrast for sidebars, floating windows and popup menus like Nvim-Tree

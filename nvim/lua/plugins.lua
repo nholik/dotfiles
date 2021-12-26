@@ -15,7 +15,17 @@ return require('packer').startup(function()
     use 'karb94/neoscroll.nvim'
     use {'nvim-treesitter/nvim-treesitter', run = ':TSUpdate'}
     use 'kyazdani42/nvim-web-devicons' -- for file icons
-    use {'nvim-lualine/lualine.nvim', requires = {'kyazdani42/nvim-web-devicons', opt = true}}
+    -- use {"folke/trouble.nvim", requires = "kyazdani42/nvim-web-devicons"}
+    use {'feline-nvim/feline.nvim', branch = 'develop'}
+    use {'Hoffs/omnisharp-extended-lsp.nvim'}
+    use {
+        'lewis6991/gitsigns.nvim',
+        requires = {'nvim-lua/plenary.nvim'},
+        config = function()
+            require('gitsigns').setup()
+        end
+    }
+    -- use {'nvim-lualine/lualine.nvim', requires = {'kyazdani42/nvim-web-devicons', opt = true}}
     use 'kyazdani42/nvim-tree.lua'
     use {'nvim-telescope/telescope.nvim', requires = {{'nvim-lua/plenary.nvim'}}}
     use 'neovim/nvim-lspconfig'
