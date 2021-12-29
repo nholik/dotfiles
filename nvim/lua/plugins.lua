@@ -9,6 +9,7 @@ local use = require('packer').use
 return require('packer').startup(function()
     -- Packer can manage itself
     use 'wbthomason/packer.nvim'
+    use 'glepnir/dashboard-nvim'
     use 'marko-cerovac/material.nvim'
     use 'jacoborus/tender.vim'
     use 'terrortylor/nvim-comment'
@@ -16,6 +17,7 @@ return require('packer').startup(function()
     use {'nvim-treesitter/nvim-treesitter', run = ':TSUpdate'}
     use 'kyazdani42/nvim-web-devicons' -- for file icons
     use 'ray-x/lsp_signature.nvim'
+    use 'windwp/nvim-autopairs'
     -- use {"folke/trouble.nvim", requires = "kyazdani42/nvim-web-devicons"}
     use {'feline-nvim/feline.nvim', branch = 'develop'}
     use {'Hoffs/omnisharp-extended-lsp.nvim'}

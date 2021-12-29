@@ -1,4 +1,6 @@
 vim.g.mapleader = ' '
+vim.g.dashboard_default_executive = 'telescope'
+
 vim.o.backspace = [[indent,eol,start]]
 vim.o.ruler = true
 vim.o.number = true
@@ -12,8 +14,6 @@ vim.o.expandtab = true
 vim.o.cmdheight = 2
 vim.cmd [[
   packadd packer.nvim
-  syntax enable
-  colorscheme material
 ]]
 
 vim.api.nvim_set_keymap("n", ">", "gt", {noremap = true})
