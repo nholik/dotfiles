@@ -14,12 +14,13 @@ local icons = {
 }
 
 local function file_osinfo()
+    local ismacos = vim.fn.has('macunix')
     local os = vim.bo.fileformat:upper()
     local icon
-    if os == 'UNIX' then
-        icon = icons.linux
-    elseif os == 'MAC' then
+    if os == 'MAC' or (os == 'UNIX' and ismacos) then
         icon = icons.macos
+    elseif os == 'UNIX' then
+        icon = icons.linux
     else
         icon = icons.windows
     end

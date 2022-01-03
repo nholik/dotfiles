@@ -27,8 +27,16 @@ local function setup_dev()
     })
 
     USER = vim.fn.expand('$USER')
-    local sumneko_root_path = "/home/" .. USER .. "/.config/nvim/lua-language-server"
-    local sumneko_binary = "/home/" .. USER .. "/.config/nvim/lua-language-server/bin/lua-language-server"
+    local homepath
+
+    if vim.fn.has('macunix') then
+        homepath = "/User/" .. USER
+    else
+        homepath = "/home/" .. USER
+    end
+
+    local sumneko_root_path = homepath .. "/.config/nvim/lua-language-server"
+    local sumneko_binary = homepath .. "/.config/nvim/lua-language-server/bin/lua-language-server"
     -- The nvim-cmp almost supports LSP's capabilities so You should advertise it to LSP servers..
     local capabilities = vim.lsp.protocol.make_client_capabilities()
     capabilities = require('cmp_nvim_lsp').update_capabilities(capabilities)
@@ -42,7 +50,7 @@ local function setup_dev()
     end
     -- omnisharp lsp config
     local pid = vim.fn.getpid()
-    local omnisharp_bin = "/home/" .. USER .. "/bin/omnisharp-roslyn/run"
+    local omnisharp_bin = homepath .. "/bin/omnisharp-roslyn/run"
 
     local sig_help_options = {
         debug = false, -- set to true to enable debug logging
