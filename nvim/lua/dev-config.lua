@@ -1,3 +1,15 @@
+local function get_home_path()
+    USER = vim.fn.expand('$USER')
+    local sysname = vim.loop.os_uname().sysname
+    local homepath
+    if sysname == "Linux" then
+        homepath = "/home/" .. USER
+    else
+        homepath = "/Users/" .. USER
+    end
+    return homepath
+end
+
 local function setup_dev()
     require('nvim_comment').setup()
     require('nvim-autopairs').setup()
@@ -26,15 +38,7 @@ local function setup_dev()
         }
     })
 
-    USER = vim.fn.expand('$USER')
-    local homepath
-
-    if vim.fn.has('macunix') then
-        homepath = "/User/" .. USER
-    else
-        homepath = "/home/" .. USER
-    end
-
+    local homepath = get_home_path()
     local sumneko_root_path = homepath .. "/.config/nvim/lua-language-server"
     local sumneko_binary = homepath .. "/.config/nvim/lua-language-server/bin/lua-language-server"
     -- The nvim-cmp almost supports LSP's capabilities so You should advertise it to LSP servers..
