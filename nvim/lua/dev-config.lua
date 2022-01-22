@@ -24,7 +24,6 @@ local function setup_dev()
         -- ignore_install = {"javascript"},
 
         highlight = {
-            -- `false` will disable the whole extension
             enable = true,
 
             -- list of language that will be disabled
