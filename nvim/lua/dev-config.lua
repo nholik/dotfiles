@@ -101,11 +101,70 @@ local function setup_dev()
         toggle_key = nil -- toggle signature on and off in insert mode,  e.g. toggle_key = '<M-x>'
     }
 
+    local setup_ts_utils = function(client)
+        local ts_utils = require("nvim-lsp-ts-utils")
+        ts_utils.setup({
+            debug = false,
+            disable_commands = false,
+            enable_import_on_completion = false,
+
+            -- import all
+            import_all_timeout = 5000, -- ms
+            -- lower numbers = higher priority
+            import_all_priorities = {
+                same_file = 1, -- add to existing import statement
+                local_files = 2, -- git files or files with relative path markers
+                buffer_content = 3, -- loaded buffer content
+                buffers = 4 -- loaded buffer names
+            },
+            import_all_scan_buffers = 100,
+            import_all_select_source = false,
+            -- if false will avoid organizing imports
+            always_organize_imports = true,
+
+            -- filter diagnostics
+            filter_out_diagnostics_by_severity = {},
+            filter_out_diagnostics_by_code = {},
+
+            -- inlay hints
+            auto_inlay_hints = true,
+            inlay_hints_highlight = "Comment",
+            inlay_hints_priority = 200, -- priority of the hint extmarks
+            inlay_hints_throttle = 150, -- throttle the inlay hint request
+            inlay_hints_format = { -- format options for individual hint kind
+                Type = {},
+                Parameter = {},
+                Enum = {}
+                -- Example format customization for `Type` kind:
+                -- Type = {
+                --     highlight = "Comment",
+                --     text = function(text)
+                --         return "->" .. text:sub(2)
+                --     end,
+                -- },
+            },
+
+            -- update imports on file move
+            update_imports_on_move = false,
+            require_confirmation_on_move = false,
+            watch_dir = nil
+        })
+
+        -- required to fix code action ranges and filter diagnostics
+        ts_utils.setup_client(client)
+    end
+
     local on_attach = function(client, bufnr)
-        if client.name == 'omnisharp' then require"lsp_signature".on_attach(sig_help_options) end
+        if client.name == 'omnisharp' then
+            require"lsp_signature".on_attach(sig_help_options)
+        elseif client.name == 'tsserver' then
+            setup_ts_utils(client)
+        end
+
         local function buf_set_keymap(...)
             vim.api.nvim_buf_set_keymap(bufnr, ...)
         end
+
         local function buf_set_option(...)
             vim.api.nvim_buf_set_option(bufnr, ...)
         end
@@ -137,6 +196,12 @@ local function setup_dev()
         buf_set_keymap("n", "]d", "<cmd>lua vim.lsp.diagnostic.goto_next()<CR>", opts)
         buf_set_keymap("n", "<leader>q", "<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>", opts)
         buf_set_keymap("n", "<leader>fd", "<cmd>lua vim.lsp.buf.formatting()<CR>", opts)
+
+        if (client.name == 'tsserver') then
+            buf_set_keymap("n", "<leader>gs", "<cmd>TSLspOrganize<CR>", opts)
+            buf_set_keymap("n", "<leader>gr", "<cmd>TSLspRenameFile<CR>", opts)
+            buf_set_keymap("n", "<leader>gi", "<cmd>TSLspImportAll<CR>", opts)
+        end
     end
 
     lspconfig.omnisharp.setup {
@@ -171,6 +236,7 @@ local function setup_dev()
 
     lspconfig.tsserver.setup {
         cmd = {"typescript-language-server", "--stdio"},
+        on_attach = on_attach,
         filetypes = {"javascript", "javascriptreact", "javascript.jsx", "typescript", "typescriptreact", "typescript.tsx"},
         init_options = {hostInfo = "neovim"}
     }
