@@ -18,7 +18,7 @@ return require('packer').startup(function()
     use 'kyazdani42/nvim-web-devicons' -- for file icons
     use 'ray-x/lsp_signature.nvim'
     use 'windwp/nvim-autopairs'
-    -- use {"folke/trouble.nvim", requires = "kyazdani42/nvim-web-devicons"}
+     use {"folke/trouble.nvim", requires = "kyazdani42/nvim-web-devicons"}
     use {'feline-nvim/feline.nvim', branch = 'develop'}
     use {'Hoffs/omnisharp-extended-lsp.nvim'}
     use {
