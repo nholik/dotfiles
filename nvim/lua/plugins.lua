@@ -18,7 +18,7 @@ return require('packer').startup(function()
     use 'kyazdani42/nvim-web-devicons' -- for file icons
     use 'ray-x/lsp_signature.nvim'
     use 'windwp/nvim-autopairs'
-     use {"folke/trouble.nvim", requires = "kyazdani42/nvim-web-devicons"}
+    use {"folke/trouble.nvim", requires = "kyazdani42/nvim-web-devicons"}
     use {'feline-nvim/feline.nvim', branch = 'develop'}
     use {'Hoffs/omnisharp-extended-lsp.nvim'}
     use {
@@ -31,6 +31,10 @@ return require('packer').startup(function()
     -- use {'nvim-lualine/lualine.nvim', requires = {'kyazdani42/nvim-web-devicons', opt = true}}
     use 'kyazdani42/nvim-tree.lua'
     use {'nvim-telescope/telescope.nvim', requires = {{'nvim-lua/plenary.nvim'}}}
+    use 'mfussenegger/nvim-dap'
+    use 'jbyuki/one-small-step-for-vimkind'
+    use 'nvim-telescope/telescope-dap.nvim'
+    use {"rcarriga/nvim-dap-ui", requires = {"mfussenegger/nvim-dap"}}
     use 'neovim/nvim-lspconfig'
     use 'glepnir/lspsaga.nvim'
     use 'hrsh7th/nvim-cmp'

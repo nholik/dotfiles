@@ -14,6 +14,15 @@ vim.o.expandtab = true
 vim.o.cmdheight = 2
 vim.cmd [[
   packadd packer.nvim
+  hi clear CursorLine
+  augroup CLClear
+    autocmd! ColorScheme * hi clear CursorLine
+  augroup END
+  hi CursorLineNR cterm=bold
+  augroup CLNRSet
+    autocmd! ColorScheme * hi CursorLineNR cterm=bold
+  augroup END
+  set cursorline
 ]]
 
 vim.api.nvim_set_keymap("n", ">", "gt", {noremap = true})
@@ -24,3 +33,5 @@ require('utils')
 require('theme')
 require('file-manager')
 require('dev-config')
+require('telescope-config')
+require('debugger')
