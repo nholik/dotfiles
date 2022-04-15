@@ -23,6 +23,8 @@ vim.cmd [[
     autocmd! ColorScheme * hi CursorLineNR cterm=bold
   augroup END
   set cursorline
+  au BufRead,BufNewFile *.g set filetype=antlr3
+  au BufRead,BufNewFile *.g4 set filetype=antlr4
 ]]
 
 vim.api.nvim_set_keymap("n", ">", "gt", {noremap = true})
