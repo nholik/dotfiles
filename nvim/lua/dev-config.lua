@@ -11,6 +11,9 @@ local function get_home_path()
 end
 
 local function setup_dev()
+    vim.cmd [[
+      let g:conjure#client#racket#stdio#command = "racket -I sicp"
+    ]]
     require('nvim_comment').setup()
     require('nvim-autopairs').setup()
     require('trouble').setup({
@@ -292,6 +295,8 @@ local function setup_dev()
         filetypes = {"javascript", "javascriptreact", "javascript.jsx", "typescript", "typescriptreact", "typescript.tsx"},
         init_options = {hostInfo = "neovim"}
     }
+
+    lspconfig.racket_langserver.setup {}
 
     lspconfig.efm.setup {
         init_options = {documentFormatting = true},

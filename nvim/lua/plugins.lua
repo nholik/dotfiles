@@ -29,6 +29,8 @@ return require('packer').startup(function()
         end
     }
     -- use {'nvim-lualine/lualine.nvim', requires = {'kyazdani42/nvim-web-devicons', opt = true}}
+    use 'wlangstroth/vim-racket'
+    use 'Olical/conjure'
     use 'dylon/vim-antlr'
     use 'kyazdani42/nvim-tree.lua'
     use {'nvim-telescope/telescope.nvim', requires = {{'nvim-lua/plenary.nvim'}}}
