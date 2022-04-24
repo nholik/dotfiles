@@ -1,6 +1,7 @@
 vim.g.mapleader = ' '
 vim.g.dashboard_default_executive = 'telescope'
 vim.g.maplocalleader = ';'
+vim.opt.laststatus = 3
 
 vim.o.backspace = [[indent,eol,start]]
 vim.o.ruler = true
