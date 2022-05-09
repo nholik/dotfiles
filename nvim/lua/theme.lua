@@ -1,9 +1,25 @@
 local function setup_theme()
+    vim.opt.termguicolors = true
+    require('bufferline').setup {
+        options = {
+            diagnostics = "nvim_lsp",
+            diagnostics_update_in_insert = false,
+            diagnostics_indicator = function(count, level, diagnostics_dict, context)
+                return "(" .. count .. ")"
+            end,
+            show_close_icon = false,
+            offsets = {{filetype = "NvimTree", text = "Files", highlight = "Directory", text_align = "right"}},
+            separator_style = "thick"
+        }
+    }
+
+    vim.api.nvim_set_keymap("n", "<leader>gb", ":BufferLinePick<CR>", {noremap = true})
+    vim.api.nvim_set_keymap("n", "<leader>cb", ":BufferLinePickClose<CR>", {noremap = true})
 
     vim.cmd [[
   syntax enable
   colorscheme material
-  let g:dashboard_custom_header = [
+   let g:dashboard_custom_header = [
     \'',
     \'             ⣴⣶⣤⡤⠦⣤⣀⣤⠆     ⣈⣭⣭⣿⣶⣿⣦⣼⣆         ',
     \'              ⠉⠻⢿⣿⠿⣿⣿⣶⣦⠤⠄⡠⢾⣿⣿⡿⠋⠉⠉⠻⣿⣿⡛⣦       ',
@@ -50,7 +66,7 @@ local function setup_theme()
 
         text_contrast = {
             lighter = false, -- Enable higher contrast text for lighter style
-            darker = true-- Enable higher contrast text for darker style
+            darker = true -- Enable higher contrast text for darker style
         },
 
         disable = {

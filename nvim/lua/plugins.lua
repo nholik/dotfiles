@@ -19,6 +19,7 @@ return require('packer').startup(function()
     use 'ray-x/lsp_signature.nvim'
     use 'windwp/nvim-autopairs'
     use {"folke/trouble.nvim", requires = "kyazdani42/nvim-web-devicons"}
+    use {'akinsho/bufferline.nvim', tag = "v2.*", requires = 'kyazdani42/nvim-web-devicons'}
     use {'feline-nvim/feline.nvim', branch = 'develop'}
     use {'Hoffs/omnisharp-extended-lsp.nvim'}
     use {
@@ -28,12 +29,12 @@ return require('packer').startup(function()
             require('gitsigns').setup()
         end
     }
-    -- use {'nvim-lualine/lualine.nvim', requires = {'kyazdani42/nvim-web-devicons', opt = true}}
     use 'wlangstroth/vim-racket'
     use 'Olical/conjure'
     use 'dylon/vim-antlr'
     use 'kyazdani42/nvim-tree.lua'
     use {'nvim-telescope/telescope.nvim', requires = {{'nvim-lua/plenary.nvim'}}}
+    use {'nvim-telescope/telescope-fzf-native.nvim', run = 'make'}
     use 'mfussenegger/nvim-dap'
     use 'jbyuki/one-small-step-for-vimkind'
     use 'nvim-telescope/telescope-dap.nvim'
