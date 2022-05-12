@@ -36,10 +36,11 @@ return require('packer').startup(function()
     use {'nvim-telescope/telescope.nvim', requires = {{'nvim-lua/plenary.nvim'}}}
     use {'nvim-telescope/telescope-fzf-native.nvim', run = 'make'}
     use 'mfussenegger/nvim-dap'
+    use {"rcarriga/nvim-dap-ui", requires = {"mfussenegger/nvim-dap"}}
     use 'jbyuki/one-small-step-for-vimkind'
     use 'nvim-telescope/telescope-dap.nvim'
-    use {"rcarriga/nvim-dap-ui", requires = {"mfussenegger/nvim-dap"}}
     use 'neovim/nvim-lspconfig'
+    use {'jose-elias-alvarez/null-ls.nvim', requires = {'nvim-lua/plenary.nvim'}}
     use 'glepnir/lspsaga.nvim'
     use 'hrsh7th/nvim-cmp'
     use 'hrsh7th/cmp-nvim-lsp'

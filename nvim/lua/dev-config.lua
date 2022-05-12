@@ -63,28 +63,11 @@ local function setup_dev()
         },
         use_diagnostic_signs = false -- enabling this will use the signs defined in your lsp client
     })
+
     require('nvim-treesitter.configs').setup({
-        -- One of "all", "maintained" (parsers with maintainers), or a list of languages
         ensure_installed = "all",
-
-        -- Install languages synchronously (only applied to `ensure_installed`)
         sync_install = false,
-
-        -- List of parsers to ignore installing
-        -- ignore_install = {"javascript"},
-
-        highlight = {
-            enable = true,
-
-            -- list of language that will be disabled
-            -- disable = {"c", "rust"},
-
-            -- Setting this to true will run `:h syntax` and tree-sitter at the same time.
-            -- Set this to `true` if you depend on 'syntax' being enabled (like for indentation).
-            -- Using this option may slow down your editor, and you may see some duplicate highlights.
-            -- Instead of true it can also be a list of languages
-            additional_vim_regex_highlighting = false
-        }
+        highlight = {enable = true, additional_vim_regex_highlighting = false}
     })
 
     local homepath = get_home_path()
@@ -108,7 +91,6 @@ local function setup_dev()
     local sig_help_options = {
         debug = false, -- set to true to enable debug logging
         log_path = vim.fn.stdpath("cache") .. "/lsp_signature.log", -- log dir when debug is on
-        -- default is  ~/.cache/nvim/lsp_signature.log
         verbose = false, -- show debug line number
 
         bind = true, -- This is mandatory, otherwise border config won't get registered.
@@ -152,6 +134,7 @@ local function setup_dev()
     }
 
     local setup_ts_utils = function(client)
+
         local ts_utils = require("nvim-lsp-ts-utils")
         ts_utils.setup({
             debug = false,
@@ -185,13 +168,6 @@ local function setup_dev()
                 Type = {},
                 Parameter = {},
                 Enum = {}
-                -- Example format customization for `Type` kind:
-                -- Type = {
-                --     highlight = "Comment",
-                --     text = function(text)
-                --         return "->" .. text:sub(2)
-                --     end,
-                -- },
             },
 
             -- update imports on file move
@@ -204,7 +180,10 @@ local function setup_dev()
         ts_utils.setup_client(client)
     end
 
-    local on_attach = function(client, bufnr)
+    local common_on_attach = function(client, bufnr)
+        -- client.server_capabilities.documentFormattingProvider = false
+        -- client.server_capabilities.documentRangeFormattingProvider = false
+
         if client.name == 'omnisharp' then
             require"lsp_signature".on_attach(sig_help_options)
         elseif client.name == 'tsserver' then
@@ -253,48 +232,44 @@ local function setup_dev()
         buf_set_keymap("n", "<leader>xq", "<cmd>Trouble quickfix<cr>", opts)
         buf_set_keymap("n", "gR", "<cmd>Trouble lsp_references<cr>", opts)
         if (client.name == 'tsserver') then
+            -- disable the builtin tsserver formatting to use null-ls + prettierd
+            client.resolved_capabilities.document_formatting = false
             buf_set_keymap("n", "<leader>gs", "<cmd>TSLspOrganize<CR>", opts)
             buf_set_keymap("n", "<leader>gr", "<cmd>TSLspRenameFile<CR>", opts)
             buf_set_keymap("n", "<leader>gi", "<cmd>TSLspImportAll<CR>", opts)
+            buf_set_keymap("n", "<leader>fd", "<cmd>lua vim.lsp.buf.formatting()<CR>", opts)
         end
     end
 
+    require("null-ls").setup({on_attach = common_on_attach, sources = {require("null-ls").builtins.formatting.prettierd}})
+
     lspconfig.omnisharp.setup {
-        capabilities = capabilities,
-        on_attach = on_attach,
+        -- capabilities = capabilities,
+        -- on_attach = common_on_attach,
         handlers = {["textDocument/definition"] = require('omnisharp_extended').handler},
         cmd = {omnisharp_bin, "--languageserver", "--hostPID", tostring(pid)}
     }
 
     lspconfig.sumneko_lua.setup {
         cmd = {sumneko_binary, "-E", sumneko_root_path .. "/main.lua"},
-        on_attach = on_attach,
+        on_attach = common_on_attach,
         settings = {
             Lua = {
-                runtime = {
-                    -- Tell the language server which version of Lua you're using (most likely LuaJIT in the case of Neovim)
-                    version = 'LuaJIT',
-                    -- Setup your lua path
-                    path = vim.split(package.path, ';')
-                },
-                diagnostics = {
-                    -- Get the language server to recognize the `vim` global
-                    globals = {'vim'}
-                },
-                workspace = {
-                    -- Make the server aware of Neovim runtime files
-                    library = {[vim.fn.expand('$VIMRUNTIME/lua')] = true, [vim.fn.expand('$VIMRUNTIME/lua/vim/lsp')] = true}
-                }
+                runtime = {version = 'LuaJIT', path = vim.split(package.path, ';')},
+                diagnostics = {globals = {'vim'}},
+                workspace = {library = {[vim.fn.expand('$VIMRUNTIME/lua')] = true, [vim.fn.expand('$VIMRUNTIME/lua/vim/lsp')] = true}}
             }
         }
     }
 
     lspconfig.tsserver.setup {
         cmd = {"typescript-language-server", "--stdio"},
-        on_attach = on_attach,
         filetypes = {"javascript", "javascriptreact", "javascript.jsx", "typescript", "typescriptreact", "typescript.tsx"},
+        handlers = {["textDocument/formatting"] = nil},
         init_options = {hostInfo = "neovim"}
     }
+
+    lspconfig.eslint.setup {}
 
     lspconfig.racket_langserver.setup {}
 
@@ -315,8 +290,8 @@ local function setup_dev()
     }
 
     -- Enable some language servers with the additional completion capabilities offered by nvim-cmp
-    local servers = {'clangd', 'rust_analyzer', 'pyright', 'tsserver'}
-    for _, lsp in ipairs(servers) do lspconfig[lsp].setup {capabilities = capabilities, on_attach = on_attach} end
+    local servers = {'clangd', 'rust_analyzer', 'pyright', 'tsserver', 'omnisharp'}
+    for _, lsp in ipairs(servers) do lspconfig[lsp].setup {capabilities = capabilities, on_attach = common_on_attach} end
 
     -- Set completeopt to have a better completion experience
     vim.o.completeopt = 'menuone,noselect'
