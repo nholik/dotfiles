@@ -77,6 +77,9 @@ vim.api.nvim_set_keymap("n", "<leader>dq", "<cmd>lua require'dap'.close()<CR>", 
 vim.api.nvim_set_keymap("n", "<leader>di", "<cmd>lua require'dap'.step_into()<CR>", opts)
 vim.api.nvim_set_keymap("n", "<leader>do", "<cmd>lua require'dap'.step_over()<CR>", opts)
 vim.api.nvim_set_keymap("n", "<leader>dr", "<cmd>lua require'dap'.run_to_cursor()<CR>", opts)
+vim.api.nvim_set_keymap("n", "<leader>dh", "<cmd>lua dap.ui.widgets'.hover()<CR>", opts)
+vim.api.nvim_set_keymap("n", "<leader>dd", "<cmd>lua require'dap'.repl.toggle()<CR>", opts)
+vim.api.nvim_set_keymap("n", "<leader>du", "<cmd>lua require'dapui'.toggle()<CR>", opts)
 
 vim.fn.sign_define("DapBreakpoint", {text = '🟥', texthl = '', linehl = '', numhl = ''})
 

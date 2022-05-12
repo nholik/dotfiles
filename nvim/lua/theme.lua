@@ -13,8 +13,8 @@ local function setup_theme()
         }
     }
 
-    vim.api.nvim_set_keymap("n", "<leader>gb", ":BufferLinePick<CR>", {noremap = true})
-    vim.api.nvim_set_keymap("n", "<leader>cb", ":BufferLinePickClose<CR>", {noremap = true})
+    vim.api.nvim_set_keymap("n", "<leader>bg", ":BufferLinePick<CR>", {noremap = true})
+    vim.api.nvim_set_keymap("n", "<leader>bc", ":BufferLinePickClose<CR>", {noremap = true})
 
     vim.cmd [[
   syntax enable
