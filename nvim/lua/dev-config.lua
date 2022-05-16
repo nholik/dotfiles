@@ -250,6 +250,8 @@ local function setup_dev()
         cmd = {omnisharp_bin, "--languageserver", "--hostPID", tostring(pid)}
     }
 
+    lspconfig.terraformls.setup {capabilities = capabilities, on_attach = common_on_attach}
+
     lspconfig.sumneko_lua.setup {
         cmd = {sumneko_binary, "-E", sumneko_root_path .. "/main.lua"},
         on_attach = common_on_attach,
