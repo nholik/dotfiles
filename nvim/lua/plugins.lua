@@ -14,6 +14,7 @@ return require('packer').startup(function()
     use 'jacoborus/tender.vim'
     use 'terrortylor/nvim-comment'
     use 'karb94/neoscroll.nvim'
+    use 'numToStr/Navigator.nvim'
     use {'nvim-treesitter/nvim-treesitter', run = ':TSUpdate'}
     use 'kyazdani42/nvim-web-devicons' -- for file icons
     use 'ray-x/lsp_signature.nvim'
