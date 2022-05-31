@@ -34,7 +34,7 @@ local function setup_file_manager()
             height = 30,
             hide_root_folder = false,
             side = 'right',
-            auto_resize = false,
+            auto_resize = true,
             mappings = {custom_only = false, list = {}},
             number = false,
             relativenumber = false,
