@@ -14,6 +14,8 @@ local function setup_dev()
     vim.cmd [[
       let g:conjure#client#racket#stdio#command = "racket -I sicp"
     ]]
+    require("nvim-lsp-installer").setup()
+    require("go").setup()
     require('nvim_comment').setup()
     require('nvim-autopairs').setup()
     require('trouble').setup({
@@ -75,7 +77,7 @@ local function setup_dev()
     local sumneko_binary = homepath .. "/.config/nvim/lua-language-server/bin/lua-language-server"
     -- The nvim-cmp almost supports LSP's capabilities so You should advertise it to LSP servers..
     local capabilities = vim.lsp.protocol.make_client_capabilities()
-    capabilities = require('cmp_nvim_lsp').update_capabilities(capabilities)
+    capabilities = require('cmp_nvim_lsp').default_capabilities()
 
     local lspconfig = require('lspconfig')
 

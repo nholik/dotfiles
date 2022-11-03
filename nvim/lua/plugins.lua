@@ -15,13 +15,14 @@ return require('packer').startup(function()
     use 'terrortylor/nvim-comment'
     use 'karb94/neoscroll.nvim'
     use 'numToStr/Navigator.nvim'
+    use 'williamboman/nvim-lsp-installer'
     use {'nvim-treesitter/nvim-treesitter', run = ':TSUpdate'}
     use 'kyazdani42/nvim-web-devicons' -- for file icons
     use 'ray-x/lsp_signature.nvim'
     use 'windwp/nvim-autopairs'
     use {"folke/trouble.nvim", requires = "kyazdani42/nvim-web-devicons"}
     use {'akinsho/bufferline.nvim', tag = "v2.*", requires = 'kyazdani42/nvim-web-devicons'}
-    use {'feline-nvim/feline.nvim', branch = 'develop'}
+    use {'feline-nvim/feline.nvim', branch = 'master'}
     use {'Hoffs/omnisharp-extended-lsp.nvim'}
     use {
         'lewis6991/gitsigns.nvim',
@@ -48,5 +49,7 @@ return require('packer').startup(function()
     use 'saadparwaiz1/cmp_luasnip' -- Snippets source for nvim-cmp
     use 'L3MON4D3/LuaSnip' -- Snippets plugin
     use 'jose-elias-alvarez/nvim-lsp-ts-utils'
+    use 'ray-x/go.nvim'
+    use 'ray-x/guihua.lua' -- recommanded if need floating window support
     if packer_bootstrap then require('packer').sync() end
 end)
