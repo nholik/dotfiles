@@ -52,7 +52,7 @@ require("dapui").setup({
     },
     -- Expand lines larger than the window
     -- Requires >= 0.7
-    expand_lines = vim.fn.has("nvim-0.7"),
+    expand_lines = true,
     -- Layouts define sections of the screen to place windows.
     -- The position can be "left", "right", "top" or "bottom".
     -- The size specifies the height/width depending on position.
@@ -98,8 +98,10 @@ vim.api.nvim_set_keymap("n", "<leader>dh", "<cmd>lua dap.ui.widgets'.hover()<CR>
 vim.api.nvim_set_keymap("n", "<leader>dd", "<cmd>lua require'dap'.repl.toggle()<CR>", opts)
 vim.api.nvim_set_keymap("n", "<leader>du", "<cmd>lua require'dapui'.toggle()<CR>", opts)
 
-vim.fn.sign_define("DapBreakpoint", {text = '🟥', texthl = '', linehl = '', numhl = ''})
+-- 🟦⭐️🟥
+
+vim.fn.sign_define("DapBreakpoint", {text = '"', texthl = '', linehl = '', numhl = ''})
 
 vim.fn.sign_define('DapBreakpointRejected', {text = '🟦', texthl = '', linehl = '', numhl = ''})
 
-vim.fn.sign_define('DapStopped', {text = '⭐️', texthl = '', linehl = '', numhl = ''})
+vim.fn.sign_define('DapStopped', {text = '', texthl = '', linehl = '', numhl = ''})
