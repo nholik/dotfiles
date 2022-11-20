@@ -4,6 +4,7 @@ if fn.empty(fn.glob(install_path)) > 0 then
     packer_bootstrap = fn.system({'git', 'clone', '--depth', '1', 'https://github.com/wbthomason/packer.nvim', install_path})
 end
 
+vim.cmd [[packadd termdebug]]
 local use = require('packer').use
 
 return require('packer').startup(function()
@@ -38,6 +39,7 @@ return require('packer').startup(function()
     use {'nvim-telescope/telescope.nvim', requires = {{'nvim-lua/plenary.nvim'}}}
     use {'nvim-telescope/telescope-fzf-native.nvim', run = 'make'}
     use 'mfussenegger/nvim-dap'
+    use 'Pocco81/dap-buddy.nvim'
     use {"rcarriga/nvim-dap-ui", requires = {"mfussenegger/nvim-dap"}}
     use 'jbyuki/one-small-step-for-vimkind'
     use 'nvim-telescope/telescope-dap.nvim'
