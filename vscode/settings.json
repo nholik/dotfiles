@@ -1,7 +1,7 @@
 {
     "workbench.startupEditor": "newUntitledFile",
     "editor.minimap.enabled": false,
-    "editor.lineNumbers": "relative",
+    "editor.lineNumbers": "on",
     "vim.easymotion": true,
     "vim.useSystemClipboard": true,
     "vim.leader": "<space>",
@@ -11,6 +11,8 @@
     },
     "telemetry.enableTelemetry": false,
     "telemetry.enableCrashReporter": false,
-    "workbench.iconTheme": "vscode-icons",
-    "workbench.colorTheme": "Monokai"
+    "workbench.editor.enablePreview": false,
+    "workbench.colorTheme": "Monokai",
+    "vsicons.dontShowNewVersionMessage": true,
+    "workbench.iconTheme": "vscode-icons"
 }
