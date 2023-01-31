@@ -14,6 +14,18 @@ local function setup_dev()
     vim.cmd [[
       let g:conjure#client#racket#stdio#command = "racket -I sicp"
     ]]
+    --
+-- Run gofmt on save
+
+    local format_sync_grp = vim.api.nvim_create_augroup("GoFormat", {})
+    vim.api.nvim_create_autocmd("BufWritePre", {
+      pattern = "*.go",
+      callback = function()
+      require('go.format').gofmt()
+      end,
+      group = format_sync_grp,
+    })
+
     require("nvim-lsp-installer").setup()
     require("go").setup()
     require('nvim_comment').setup()
@@ -183,8 +195,6 @@ local function setup_dev()
     end
 
     local common_on_attach = function(client, bufnr)
-        -- client.server_capabilities.documentFormattingProvider = false
-        -- client.server_capabilities.documentRangeFormattingProvider = false
 
         if client.name == 'omnisharp' then
             require"lsp_signature".on_attach(sig_help_options)
@@ -246,8 +256,6 @@ local function setup_dev()
     require("null-ls").setup({on_attach = common_on_attach, sources = {require("null-ls").builtins.formatting.prettierd}})
 
     lspconfig.omnisharp.setup {
-        -- capabilities = capabilities,
-        -- on_attach = common_on_attach,
         handlers = {["textDocument/definition"] = require('omnisharp_extended').handler},
         cmd = {omnisharp_bin, "--languageserver", "--hostPID", tostring(pid)}
     }
@@ -293,8 +301,10 @@ local function setup_dev()
         }
     }
 
+    lspconfig.gopls.setup {}
+
     -- Enable some language servers with the additional completion capabilities offered by nvim-cmp
-    local servers = {'clangd', 'rust_analyzer', 'pyright', 'tsserver', 'omnisharp'}
+    local servers = {'clangd', 'rust_analyzer', 'pyright', 'tsserver', 'omnisharp', 'gopls'}
     for _, lsp in ipairs(servers) do lspconfig[lsp].setup {capabilities = capabilities, on_attach = common_on_attach} end
 
     -- Set completeopt to have a better completion experience
