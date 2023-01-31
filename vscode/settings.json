@@ -7,12 +7,24 @@
     "vim.leader": "<space>",
     "vim.handleKeys": {
         "<C-w>": false,
-        "<C-k>": false,
+        "<C-k>": false
     },
     "telemetry.enableTelemetry": false,
     "telemetry.enableCrashReporter": false,
     "workbench.editor.enablePreview": false,
     "workbench.colorTheme": "Monokai",
     "vsicons.dontShowNewVersionMessage": true,
-    "workbench.iconTheme": "vscode-icons"
+    "workbench.iconTheme": "vscode-icons",
+    "[javascript]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "[jsonc]": {
+        "editor.defaultFormatter": "vscode.json-language-features"
+    },
+    "[json]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "[dockercompose]": {
+        "editor.defaultFormatter": "ms-azuretools.vscode-docker"
+    }
 }
