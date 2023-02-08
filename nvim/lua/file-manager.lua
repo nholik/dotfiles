@@ -35,7 +35,7 @@ local function setup_file_manager()
             side = 'right',
             -- auto_resize = true,
             mappings = {custom_only = false, list = {}},
-            number = false,
+            number = true,
             relativenumber = false,
             signcolumn = "yes"
         },
