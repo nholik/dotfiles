@@ -1,22 +1,18 @@
 local function setup_telescope()
-    require('telescope').setup {
-        extensions = {
-            fzf = {
-                fuzzy = true, -- false will only do exact matching
-                override_generic_sorter = true, -- override the generic sorter
-                override_file_sorter = true, -- override the file sorter
-                case_mode = "smart_case" -- or "ignore_case" or "respect_case"
-                -- the default case_mode is "smart_case"
-            }
-        }
-    }
-    require('telescope').load_extension('fzf')
-    local opts = {noremap = true, silent = true}
 
-    vim.api.nvim_set_keymap("n", "<leader>ff", "<cmd>Telescope find_files<CR>", opts)
-    vim.api.nvim_set_keymap("n", "<leader>fb", "<cmd>Telescope buffers<CR>", opts)
-    vim.api.nvim_set_keymap("n", "<leader>fg", "<cmd>Telescope live_grep<CR>", opts)
-    vim.api.nvim_set_keymap("n", "<leader>fh", "<cmd>Telescope help_tags<CR>", opts)
+  local nmap = function(keys, func, desc)
+    vim.keymap.set('n', keys, func, { desc = desc })
+  end
+
+  nmap('<leader>?', require('telescope.builtin').oldfiles, '[?] Find recently opened files')
+  nmap('<leader><space>', require('telescope.builtin').buffers, '[ ] Find existing buffers')
+  nmap('<leader>/', require('telescope.builtin').current_buffer_fuzzy_find,
+    '[/] Fuzzily search in current buffer]')
+  nmap('<leader>sf', require('telescope.builtin').find_files, '[S]earch [F]iles')
+  nmap('<leader>sh', require('telescope.builtin').help_tags, '[S]earch [H]elp')
+  nmap('<leader>sw', require('telescope.builtin').grep_string, '[S]earch current [W]ord')
+  nmap('<leader>sg', require('telescope.builtin').live_grep, '[S]earch by [G]rep')
+  nmap('<leader>sd', require('telescope.builtin').diagnostics, '[S]earch [D]iagnostics')
 end
 
 setup_telescope()
