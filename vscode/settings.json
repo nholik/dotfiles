@@ -15,6 +15,7 @@
     "workbench.colorTheme": "Monokai",
     "vsicons.dontShowNewVersionMessage": true,
     "workbench.iconTheme": "vscode-icons",
+    "redhat.telemetry.enabled": false,
     "[javascript]": {
         "editor.defaultFormatter": "esbenp.prettier-vscode"
     },
@@ -26,5 +27,9 @@
     },
     "[dockercompose]": {
         "editor.defaultFormatter": "ms-azuretools.vscode-docker"
-    }
+    },
+    "[yaml]": {
+        "editor.defaultFormatter": "redhat.vscode-yaml"
+    },
+    "window.zoomLevel": -1
 }
