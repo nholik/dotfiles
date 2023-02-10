@@ -31,5 +31,5 @@
     "[yaml]": {
         "editor.defaultFormatter": "redhat.vscode-yaml"
     },
-    "window.zoomLevel": -1
+    "editor.inlineSuggest.enabled": true
 }
