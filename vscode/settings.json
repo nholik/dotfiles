@@ -9,6 +9,38 @@
         "<C-w>": false,
         "<C-k>": false
     },
+    "vim.normalModeKeyBindings": [
+        {
+            "before": [
+                "<leader>",
+                "s",
+                "f"
+            ],
+            "commands": [
+                "find-it-faster.findFiles"
+            ]
+        },
+        {
+            "before": [
+                "<leader>",
+                "s",
+                "g"
+            ],
+            "commands": [
+                "find-it-faster.findWithinFiles"
+            ]
+        },
+        {
+            "before": [
+                "<leader>",
+                "f",
+                "d"
+            ],
+            "commands": [
+                "editor.action.formatDocument"
+            ]
+        }
+    ],
     "telemetry.enableTelemetry": false,
     "telemetry.enableCrashReporter": false,
     "workbench.editor.enablePreview": false,
