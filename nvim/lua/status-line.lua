@@ -46,16 +46,21 @@ M.active[1] = {
       return vim.fn.getfsize(vim.fn.expand('%:t')) > 0
     end,
     right_sep = { ' ', { hl = { fg = 'fg', bg = 'bg' } } }
-  }, { provider = 'position', left_sep = ' ', right_sep = { ' ', { hl = { fg = 'fg', bg = 'bg' } } } },
+  },
+  { provider = 'position', left_sep = ' ', right_sep = { ' ',
+    {
+      hl = { fg = 'black', bg = 'white' }
+    } } },
   { provider = 'diagnostic_errors', hl = { fg = 'red' } },
   { provider = 'diagnostic_warnings', hl = { fg = 'yellow' } }, { provider = 'diagnostic_hints', hl = { fg = 'cyan' } },
   { provider = 'diagnostic_info', hl = { fg = 'skyblue' } }
 }
 
 M.active[2] = {
-  { provider = file_osinfo, left_sep = ' ', hl = { fg = 'white' } },
-  { provider = 'file_encoding', right_sep = ' ', left_sep = ' ' },
-  { provider = 'git_branch', hl = { fg = 'white', bg = 'black', style = 'bold' },
+  { provider = file_osinfo, left_sep = ' ', hl = { fg = 'black', bg = 'white', style = 'bold' } },
+  { provider = 'file_encoding', right_sep = ' ', left_sep = ' ',
+    hl = { fg = 'white', bg = 'DarkGreen', style = 'bold' } },
+  { provider = 'git_branch', hl = { fg = 'white', bg = 'blue', style = 'bold' },
     right_sep = { str = ' ', hl = { fg = 'NONE', bg = 'black' } } },
   { provider = 'git_diff_added', hl = { fg = 'green', bg = 'black' } },
   { provider = 'git_diff_changed', hl = { fg = 'orange', bg = 'black' } },

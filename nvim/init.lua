@@ -2,7 +2,6 @@ vim.g.loaded_netrw = 1
 vim.g.loaded_netrwPlugin = 1
 vim.g.mapleader = ' '
 -- vim.g.dashboard_default_executive = 'telescope'
--- vim.g.maplocalleader = ';'
 vim.opt.laststatus = 3
 vim.wo.number = true
 vim.o.backspace = [[indent,eol,start]]

@@ -44,6 +44,7 @@ require('packer').startup(function(use)
   use 'glepnir/dashboard-nvim'
   use 'marko-cerovac/material.nvim'
   use 'kyazdani42/nvim-tree.lua'
+  use 'lukas-reineke/indent-blankline.nvim'
 
   use 'jacoborus/tender.vim'
   use 'terrortylor/nvim-comment'
