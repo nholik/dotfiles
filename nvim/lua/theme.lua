@@ -66,7 +66,9 @@ local function setup_theme()
       comments = { --[[ italic = true ]] },
       strings = { --[[ bold = true ]] },
       keywords = { --[[ underline = true ]] },
-      functions = { --[[ bold = true, undercurl = true ]] },
+      functions = {
+        bold = true,
+      },
       variables = {},
       operators = {},
       types = {},
