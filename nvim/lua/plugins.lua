@@ -40,6 +40,7 @@ require('packer').startup(function(use)
   use 'hrsh7th/cmp-nvim-lsp'
   use 'saadparwaiz1/cmp_luasnip' -- Snippets source for nvim-cmp
   use 'L3MON4D3/LuaSnip' -- Snippets plugin
+  use 'github/copilot.vim'
 
   use 'glepnir/dashboard-nvim'
   use 'marko-cerovac/material.nvim'
