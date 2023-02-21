@@ -57,7 +57,7 @@ require('packer').startup(function(use)
   use { "folke/trouble.nvim", requires = "kyazdani42/nvim-web-devicons" }
 
   use { 'akinsho/bufferline.nvim', tag = "v2.*", requires = 'kyazdani42/nvim-web-devicons' }
-  use { 'feline-nvim/feline.nvim', branch = 'master' }
+  use { 'nvim-lualine/lualine.nvim', requires = 'kyazdani42/nvim-web-devicons' }
   use {
     'lewis6991/gitsigns.nvim',
     requires = { 'nvim-lua/plenary.nvim' },

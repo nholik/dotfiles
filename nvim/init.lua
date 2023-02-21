@@ -36,8 +36,6 @@ augroup setlinenums END
 --   au BufRead,BufNewFile *.g4 set filetype=antlr4
 --   autocmd BufEnter * ++nested if winnr('$') == 1 && bufname() == 'NvimTree_' . tabpagenr() | quit | endif
 -- ]]
--- vim.api.nvim_set_keymap("n", ">", "gt", {noremap = true})
--- vim.api.nvim_set_keymap("n", "<", "gT", {noremap = true})
 
 require('plugins')
 require('utils')
