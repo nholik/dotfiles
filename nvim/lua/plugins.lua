@@ -32,7 +32,7 @@ require('packer').startup(function(use)
       'j-hui/fidget.nvim'
     }
   }
-
+  use 'mortepau/codicons.nvim'
   use 'ray-x/go.nvim'
 
   -- auto completion
@@ -76,12 +76,14 @@ require('packer').startup(function(use)
   use { 'nvim-telescope/telescope-fzf-native.nvim', run = 'make', cond = vim.fn.executable 'make' == 1 }
 
   use 'mfussenegger/nvim-dap'
-  use 'Pocco81/dap-buddy.nvim'
-  use { "rcarriga/nvim-dap-ui", requires = { "mfussenegger/nvim-dap" } }
-
-  use 'jbyuki/one-small-step-for-vimkind'
+  use 'leoluz/nvim-dap-go'
+  use 'rcarriga/nvim-dap-ui'
+  --
+  -- use to debug neovim itself
+  -- use 'jbyuki/one-small-step-for-vimkind'
   use 'nvim-telescope/telescope-dap.nvim'
-  use { 'jose-elias-alvarez/null-ls.nvim', requires = { 'nvim-lua/plenary.nvim' } }
-  use 'ray-x/guihua.lua' -- recommanded if need floating window support
+  -- use { 'jose-elias-alvarez/null-ls.nvim', requires = { 'nvim-lua/plenary.nvim' } }
+  -- use 'ray-x/guihua.lua' -- recommended if need floating window support
+
   if packer_bootstrap then require('packer').sync() end
 end)

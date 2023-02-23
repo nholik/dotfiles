@@ -1,4 +1,5 @@
 local function setup_theme()
+  require('codicons').setup()
   -- vim.opt.list = true
   -- vim.opt.listchars:append "space:⋅"
   -- vim.opt.listchars:append "eol:↴"
@@ -27,7 +28,7 @@ local function setup_theme()
   vim.api.nvim_set_keymap("n", "<leader>bg", ":BufferLinePick<CR>", { noremap = true })
   vim.api.nvim_set_keymap("n", "<leader>bc", ":BufferLinePickClose<CR>", { noremap = true })
   vim.cmd [[
-   syntax enable 
+   syntax enable
    let g:dashboard_custom_header = [
     \'',
     \'             ⣴⣶⣤⡤⠦⣤⣀⣤⠆     ⣈⣭⣭⣿⣶⣿⣦⣼⣆         ',
@@ -57,12 +58,12 @@ local function setup_theme()
       component_separators = { left = '', right = '' },
       section_separators = { left = '', right = '' },
       disabled_filetypes = {
-        statusline = {},
+        statusline = {}, -- 'packer', 'NvimTree', 'dapui' },
         winbar = {},
       },
       ignore_focus = {},
       always_divide_middle = true,
-      globalstatus = false,
+      globalstatus = true,
       refresh = {
         statusline = 1000,
         tabline = 1000,
@@ -99,7 +100,6 @@ local function setup_theme()
       non_current_windows = false, -- Enable darker background for non-current windows
       filetypes = {}, -- Specify which filetypes get the contrasted (darker) background
     },
-
     styles = { -- Give comments style such as bold, italic, underline etc.
       comments = { --[[ italic = true ]] },
       strings = { --[[ bold = true ]] },
@@ -111,7 +111,6 @@ local function setup_theme()
       operators = {},
       types = {},
     },
-
     plugins = { -- Uncomment the plugins that you use to highlight them
       "dap",
       "gitsigns",
@@ -131,7 +130,6 @@ local function setup_theme()
       -- "neogit",
       -- "which-key",
     },
-
     disable = {
       colored_cursor = false, -- Disable the colored cursor
       borders = false, -- Disable borders between verticaly split windows
@@ -139,18 +137,13 @@ local function setup_theme()
       term_colors = false, -- Prevent the theme from setting terminal colors
       eob_lines = false -- Hide the end-of-buffer lines
     },
-
     high_visibility = {
       lighter = false, -- Enable higher contrast text for lighter style
       darker = true -- Enable higher contrast text for darker style
     },
-
     lualine_style = "default", -- Lualine style ( can be 'stealth' or 'default' )
-
     async_loading = true, -- Load parts of the theme asyncronously for faster startup (turned on by default)
-
     custom_colors = nil, -- If you want to everride the default colors, set this to a function
-
     custom_highlights = {}, -- Overwrite highlights with your own
   })
 
