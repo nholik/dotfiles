@@ -1,5 +1,4 @@
 local function setup_theme()
-  require('codicons').setup()
   -- vim.opt.list = true
   -- vim.opt.listchars:append "space:⋅"
   -- vim.opt.listchars:append "eol:↴"

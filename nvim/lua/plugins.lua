@@ -32,7 +32,6 @@ require('packer').startup(function(use)
       'j-hui/fidget.nvim'
     }
   }
-  use 'mortepau/codicons.nvim'
   use 'ray-x/go.nvim'
 
   -- auto completion
@@ -78,6 +77,12 @@ require('packer').startup(function(use)
   use 'mfussenegger/nvim-dap'
   use 'leoluz/nvim-dap-go'
   use 'rcarriga/nvim-dap-ui'
+  use { "mxsdev/nvim-dap-vscode-js", requires = { "mfussenegger/nvim-dap" } }
+  use {
+    "microsoft/vscode-js-debug",
+    opt = true,
+    run = "npm install --legacy-peer-deps && npm run compile"
+  }
   --
   -- use to debug neovim itself
   -- use 'jbyuki/one-small-step-for-vimkind'

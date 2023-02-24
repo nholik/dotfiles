@@ -1,9 +1,115 @@
 local dap = require('dap')
 local dapui = require('dapui')
-dapui.setup()
+dapui.setup(
+  {
+    controls = {
+      element = "repl",
+      enabled = true,
+      icons = {
+        disconnect = "",
+        pause = "",
+        play = "",
+        run_last = "",
+        step_back = "",
+        step_into = "",
+        step_out = "",
+        step_over = "",
+        terminate = ""
+      }
+    },
+    element_mappings = {},
+    expand_lines = true,
+    floating = {
+      border = "single",
+      mappings = {
+        close = { "q", "<Esc>" }
+      }
+    },
+    force_buffers = true,
+    icons = {
+      collapsed = "",
+      current_frame = "",
+      expanded = ""
+    },
+    layouts = { {
+      elements = { {
+        id = "scopes",
+        size = 0.25
+      }, {
+        id = "breakpoints",
+        size = 0.25
+      }, {
+        id = "stacks",
+        size = 0.25
+      }, {
+        id = "watches",
+        size = 0.25
+      } },
+      position = "left",
+      size = 40
+    }, {
+      elements = { {
+        id = "repl",
+        size = 0.75
+      }, {
+        id = "console",
+        size = 0.25
+      } },
+      position = "bottom",
+      size = 10
+    } },
+    mappings = {
+      edit = "e",
+      expand = { "<CR>", "<2-LeftMouse>" },
+      open = "o",
+      remove = "d",
+      repl = "r",
+      toggle = "t"
+    },
+    render = {
+      indent = 1,
+      max_value_lines = 100
+    }
+  }
+)
 
+-- dap.defaults.fallback.external_terminal = {
+--   command = '/usr/bin/alacritty',
+--   args = { '-e' },
+-- }
+-- dap.defaults.fallback.force_external_terminal = true
 require('dap-go').setup()
+require("dap-vscode-js").setup({
+  -- node_path = "node", -- Path of node executable. Defaults to $NODE_PATH, and then "node"
+  -- debugger_path = "(runtimedir)/site/pack/packer/opt/vscode-js-debug", -- Path to vscode-js-debug installation.
+  -- debugger_cmd = { "js-debug-adapter" }, -- Command to use to launch the debug server. Takes precedence over `node_path` and `debugger_path`.
+  adapters = { 'pwa-node', 'pwa-chrome', 'pwa-msedge', 'node-terminal', 'pwa-extensionHost' }, -- which adapters to register in nvim-dap
+  -- log_file_path = "(stdpath cache)/dap_vscode_js.log" -- Path for file logging
+  -- log_file_level = false -- Logging level for output to file. Set to false to disable file logging.
+  -- log_console_level = vim.log.levels.ERROR -- Logging level for output to console. Set to false to disable console output.
+})
+
 require('dap.ext.vscode').load_launchjs(nil, {})
+for _, language in ipairs({ "typescript", "javascript" }) do
+  require("dap").configurations[language] =
+  {
+    {
+      type = "pwa-node",
+      request = "launch",
+      name = "Launch file",
+      program = "${file}",
+      cwd = "${workspaceFolder}",
+    },
+    {
+      type = "pwa-node",
+      request = "attach",
+      name = "Attach",
+      processId = require 'dap.utils'.pick_process,
+      cwd = "${workspaceFolder}",
+    }
+  }
+end
+
 
 vim.keymap.set('n', '<F5>', require 'dap'.continue)
 vim.keymap.set('n', '<F10>', require 'dap'.step_over)
