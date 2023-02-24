@@ -73,5 +73,6 @@
         "plaintext": false,
         "markdown": true
     },
-    "window.zoomLevel": -1
+    "window.zoomLevel": 1,
+    "editor.multiCursorModifier": "ctrlCmd"
 }
