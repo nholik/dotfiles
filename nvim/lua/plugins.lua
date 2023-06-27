@@ -16,7 +16,14 @@ require('packer').startup(function(use)
     'neovim/nvim-lspconfig',
     requires = {
       -- Automatically install LSPs to stdpath for neovim
-      'williamboman/mason.nvim',
+      {
+        'williamboman/mason.nvim',
+        opts = {
+          ensure_installed = {
+            "pyright"
+          },
+        }
+      },
       'williamboman/mason-lspconfig.nvim',
       -- 'williamboman/nvim-lsp-installer'
       -- Additional lua configuration, makes nvim stuff amazing
@@ -83,11 +90,12 @@ require('packer').startup(function(use)
     opt = true,
     run = "npm install --legacy-peer-deps && npm run compile"
   }
+  use { "mfussenegger/nvim-dap-python", requires = { "mfussenegger/nvim-dap" } }
   --
   -- use to debug neovim itself
   -- use 'jbyuki/one-small-step-for-vimkind'
   use 'nvim-telescope/telescope-dap.nvim'
-  -- use { 'jose-elias-alvarez/null-ls.nvim', requires = { 'nvim-lua/plenary.nvim' } }
+  use { 'jose-elias-alvarez/null-ls.nvim', requires = { 'nvim-lua/plenary.nvim' } }
   -- use 'ray-x/guihua.lua' -- recommended if need floating window support
 
   if packer_bootstrap then require('packer').sync() end

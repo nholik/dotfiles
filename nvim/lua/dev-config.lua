@@ -148,10 +148,10 @@ local servers = {
     import_all_timeout = 5000, -- ms
     -- lower numbers = higher priority
     import_all_priorities = {
-      same_file = 1, -- add to existing import statement
-      local_files = 2, -- git files or files with relative path markers
+      same_file = 1,      -- add to existing import statement
+      local_files = 2,    -- git files or files with relative path markers
       buffer_content = 3, -- loaded buffer content
-      buffers = 4 -- loaded buffer names
+      buffers = 4         -- loaded buffer names
     },
     import_all_scan_buffers = 100,
     import_all_select_source = false,
@@ -167,7 +167,7 @@ local servers = {
     inlay_hints_highlight = "Comment",
     inlay_hints_priority = 200, -- priority of the hint extmarks
     inlay_hints_throttle = 150, -- throttle the inlay hint request
-    inlay_hints_format = { -- format options for individual hint kind
+    inlay_hints_format = {      -- format options for individual hint kind
       Type = {},
       Parameter = {},
       Enum = {}
@@ -206,6 +206,15 @@ mason_lspconfig.setup_handlers {
     }
   end,
 }
+
+local null_ls = require('null-ls')
+null_ls.setup({
+  sources = {
+    null_ls.builtins.diagnostics.ruff,
+    null_ls.builtins.formatting.black
+  }
+})
+
 require('fidget').setup()
 local cmp = require('cmp')
 local luasnip = require('luasnip')
@@ -217,7 +226,7 @@ cmp.setup {
     end,
   },
   mapping = cmp.mapping.preset.insert {
-    ['<C-d>'] = cmp.mapping.scroll_docs( -4),
+    ['<C-d>'] = cmp.mapping.scroll_docs(-4),
     ['<C-f>'] = cmp.mapping.scroll_docs(4),
     ['<C-Space>'] = cmp.mapping.complete({}),
     ['<CR>'] = cmp.mapping.confirm {
@@ -253,8 +262,8 @@ cmp.setup {
     ['<S-Tab>'] = cmp.mapping(function(fallback)
       if cmp.visible() then
         cmp.select_prev_item()
-      elseif luasnip.jumpable( -1) then
-        luasnip.jump( -1)
+      elseif luasnip.jumpable(-1) then
+        luasnip.jump(-1)
       else
         fallback()
       end

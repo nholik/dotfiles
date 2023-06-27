@@ -79,6 +79,7 @@ dapui.setup(
 -- }
 -- dap.defaults.fallback.force_external_terminal = true
 require('dap-go').setup()
+require('dap-python').setup()
 require("dap-vscode-js").setup({
   -- node_path = "node", -- Path of node executable. Defaults to $NODE_PATH, and then "node"
   -- debugger_path = "(runtimedir)/site/pack/packer/opt/vscode-js-debug", -- Path to vscode-js-debug installation.
