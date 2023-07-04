@@ -2,6 +2,7 @@ vim.g.loaded_netrw = 1
 vim.g.loaded_netrwPlugin = 1
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ';'
+vim.o.clipboard = 'unnamedplus'
 -- vim.g.dashboard_default_executive = 'telescope'
 vim.opt.laststatus = 3
 vim.wo.number = true
