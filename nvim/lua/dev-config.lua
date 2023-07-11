@@ -5,6 +5,13 @@ vim.g.copilot_no_tab_map = true
 vim.g.copilot_assume_mapped = true
 vim.g.copilot_tab_fallback = ""
 
+-- conjure settings
+vim.g["conjure#filetypes"] = { "clojure", "fennel", "janet", "racket", "scheme", "sicp", "pie" }
+vim.g["conjure#filetype#pie"] = "conjure.client.racket.stdio"
+vim.g["conjure#filetype#sicp"] = "conjure.client.racket.stdio"
+vim.g["conjure#client#racket#stdio#command"] = "racket -l pie -i"
+vim.g["conjure#highlight#enabled"] = true
+
 -- [[ Configure Treesitter ]]
 -- See `:help nvim-treesitter`
 require('nvim-treesitter.configs').setup {
