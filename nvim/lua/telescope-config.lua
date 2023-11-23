@@ -1,11 +1,11 @@
 local function setup_telescope()
-
   local nmap = function(keys, func, desc)
     vim.keymap.set('n', keys, func, { desc = desc })
   end
 
   nmap('<leader>?', require('telescope.builtin').oldfiles, '[?] Find recently opened files')
   nmap('<leader><space>', require('telescope.builtin').buffers, '[ ] Find existing buffers')
+  nmap('<leader>sb', require('telescope.builtin').buffers, '[S]search [B]uffers')
   nmap('<leader>/', require('telescope.builtin').current_buffer_fuzzy_find,
     '[/] Fuzzily search in current buffer]')
   nmap('<leader>sf', require('telescope.builtin').find_files, '[S]earch [F]iles')
