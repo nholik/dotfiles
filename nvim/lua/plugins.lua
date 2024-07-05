@@ -62,7 +62,7 @@ require('packer').startup(function(use)
   use 'windwp/nvim-autopairs'
   use { "folke/trouble.nvim", requires = "kyazdani42/nvim-web-devicons" }
 
-  use { 'akinsho/bufferline.nvim', tag = "v2.*", requires = 'kyazdani42/nvim-web-devicons' }
+  use { 'akinsho/bufferline.nvim', tag = "*", requires = 'kyazdani42/nvim-web-devicons' }
   use { 'nvim-lualine/lualine.nvim', requires = 'kyazdani42/nvim-web-devicons' }
   use {
     'lewis6991/gitsigns.nvim',
@@ -83,7 +83,7 @@ require('packer').startup(function(use)
 
   use 'mfussenegger/nvim-dap'
   use 'leoluz/nvim-dap-go'
-  use 'rcarriga/nvim-dap-ui'
+  use { "rcarriga/nvim-dap-ui", requires = {"mfussenegger/nvim-dap", "nvim-neotest/nvim-nio"} }
   use { "mxsdev/nvim-dap-vscode-js", requires = { "mfussenegger/nvim-dap" } }
   use {
     "microsoft/vscode-js-debug",

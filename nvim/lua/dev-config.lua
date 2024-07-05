@@ -9,16 +9,21 @@ vim.g.copilot_tab_fallback = ""
 vim.g["conjure#filetypes"] = { "clojure", "fennel", "janet", "racket", "scheme", "sicp", "pie" }
 vim.g["conjure#filetype#pie"] = "conjure.client.racket.stdio"
 vim.g["conjure#filetype#sicp"] = "conjure.client.racket.stdio"
-vim.g["conjure#client#racket#stdio#command"] = "racket -l pie -i"
+vim.g["conjure#client#racket#stdio#command"] = "racket -l malt -i"
 vim.g["conjure#highlight#enabled"] = true
 
 -- [[ Configure Treesitter ]]
 -- See `:help nvim-treesitter`
 require('nvim-treesitter.configs').setup {
   -- Add languages to be installed here that you want installed for treesitter
-  ensure_installed = { 'c', 'cpp', 'go', 'lua', 'python', 'rust', 'typescript', 'help', 'vim', 'markdown' },
+  ensure_installed = { 'c', 'cpp', 'go', 'lua', 'python', 'rust', 'typescript', 'help', 'vim', 'markdown', 'latex' },
 
-  highlight = { enable = true },
+  highlight = {
+    enable = true,
+    disable = {
+      "latex"
+    }
+  },
   indent = { enable = true, disable = { 'python' } },
   incremental_selection = {
     enable = true,
@@ -98,7 +103,7 @@ local on_attach = function(client, bufnr)
   nmap('gd', vim.lsp.buf.definition, '[G]oto [D]efinition')
   nmap('gr', require('telescope.builtin').lsp_references, '[G]oto [R]eferences')
   nmap('gI', vim.lsp.buf.implementation, '[G]oto [I]mplementation')
-  nmap('<leader>D', vim.lsp.buf.type_definition, 'Type [D]efinition')
+  -- nmap('<leader>D', vim.lsp.buf.type_definition, 'Type [D]efinition')
   nmap('<leader>ds', require('telescope.builtin').lsp_document_symbols, '[D]ocument [S]ymbols')
   nmap('<leader>ws', require('telescope.builtin').lsp_dynamic_workspace_symbols, '[W]orkspace [S]ymbols')
 
