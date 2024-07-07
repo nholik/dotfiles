@@ -23,21 +23,6 @@ augroup setlinenums
   au BufRead * set number
 augroup setlinenums END
 ]])
--- vim.cmd [[
---   packadd packer.nvim
---   hi clear CursorLine
---   augroup CLClear
---     autocmd! ColorScheme * hi clear CursorLine
---   augroup END
---   hi CursorLineNR cterm=bold
---   augroup CLNRSet
---     autocmd! ColorScheme * hi CursorLineNR cterm=bold
---   augroup END
---   set cursorline
---   au BufRead,BufNewFile *.g set filetype=antlr3
---   au BufRead,BufNewFile *.g4 set filetype=antlr4
---   autocmd BufEnter * ++nested if winnr('$') == 1 && bufname() == 'NvimTree_' . tabpagenr() | quit | endif
--- ]]
 
 require('plugins')
 require('utils')

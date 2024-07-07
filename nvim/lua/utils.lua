@@ -1,4 +1,4 @@
-require('neoscroll').setup()
+-- require('neoscroll').setup()
 
 require('Navigator').setup()
 
