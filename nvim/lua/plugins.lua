@@ -37,6 +37,9 @@ require('packer').startup(function(use)
       'glepnir/lspsaga.nvim',
       'jose-elias-alvarez/nvim-lsp-ts-utils',
       { 'j-hui/fidget.nvim', tag = 'legacy' },
+      --for REPL
+      { 'jpalardy/vim-slime' }
+      -- { 'Vigemus/iron.nvim', tag = "v3.0" }
     }
   }
   use 'ray-x/go.nvim'
@@ -83,7 +86,7 @@ require('packer').startup(function(use)
 
   use 'mfussenegger/nvim-dap'
   use 'leoluz/nvim-dap-go'
-  use { "rcarriga/nvim-dap-ui", requires = {"mfussenegger/nvim-dap", "nvim-neotest/nvim-nio"} }
+  use { "rcarriga/nvim-dap-ui", requires = { "mfussenegger/nvim-dap", "nvim-neotest/nvim-nio" } }
   use { "mxsdev/nvim-dap-vscode-js", requires = { "mfussenegger/nvim-dap" } }
   use {
     "microsoft/vscode-js-debug",

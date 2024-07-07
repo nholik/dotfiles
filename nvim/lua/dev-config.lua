@@ -1,4 +1,19 @@
 require('nvim_comment').setup()
+vim.g.slime_target = "tmux"
+vim.g.slime_default_config = { socket_name = "default", target_pane = "{right-of}" }
+vim.g.slime_dont_ask_default = 1
+vim.g.slime_no_mappings = 1
+vim.api.nvim_set_keymap('x', '<leader>sr', '<Plug>SlimeRegionSend', { noremap = true })
+vim.api.nvim_set_keymap('n', '<leader>sr', '<Plug>SlimeParagraphSend', { noremap = true })
+vim.api.nvim_set_keymap('n', '<leader>sl', '<Plug>SlimeLineSend', { noremap = true })
+vim.api.nvim_set_keymap('n', '<leader>sc', '<Plug>SlimeSendCell', { noremap = true })
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = { "scheme", "racket", "lisp", "clojure" },
+  callback = function()
+    vim.b.slime_cell_delimiter = "("
+  end
+})
+local lspconfig = require('lspconfig')
 
 -- Copilot settings
 vim.g.copilot_no_tab_map = true
@@ -6,17 +21,45 @@ vim.g.copilot_assume_mapped = true
 vim.g.copilot_tab_fallback = ""
 
 -- conjure settings
-vim.g["conjure#filetypes"] = { "clojure", "fennel", "janet", "racket", "scheme", "sicp", "pie" }
-vim.g["conjure#filetype#pie"] = "conjure.client.racket.stdio"
-vim.g["conjure#filetype#sicp"] = "conjure.client.racket.stdio"
-vim.g["conjure#client#racket#stdio#command"] = "racket -l malt -i"
+vim.g["conjure#filetypes"] = { "clojure", "fennel", "janet", "pie" } --"racket", "scheme", "sicp",
+-- vim.g["conjure#filetype#pie"] = "conjure.client.racket.stdio"
+-- vim.g["conjure#filetype#sicp"] = "conjure.client.racket.stdio"
+-- vim.g["conjure#client#racket#stdio#command"] = "racket" --"racket -l sicp -i"
 vim.g["conjure#highlight#enabled"] = true
+
+-- File type detection for SICP
+vim.cmd [[
+  function! s:DetectSICP()
+    if getline(1) =~# '#lang sicp'
+      set filetype=racket
+    endif
+  endfunction
+  augroup filetypedetect
+    autocmd!
+    autocmd BufRead,BufNewFile * call s:DetectSICP()
+  augroup END
+
+]]
+
 
 -- [[ Configure Treesitter ]]
 -- See `:help nvim-treesitter`
 require('nvim-treesitter.configs').setup {
   -- Add languages to be installed here that you want installed for treesitter
-  ensure_installed = { 'c', 'cpp', 'go', 'lua', 'python', 'rust', 'typescript', 'help', 'vim', 'markdown', 'latex' },
+  ensure_installed = {
+    'c',
+    'cpp',
+    'go',
+    'lua',
+    'python',
+    'rust',
+    'typescript',
+    'help',
+    'vim',
+    'markdown',
+    'latex',
+    'scheme'
+  },
 
   highlight = {
     enable = true,
@@ -184,6 +227,17 @@ local servers = {
       Parameter = {},
       Enum = {}
     },
+    racket_langserver = {
+      -- filetypes = { "racket", "scheme" },
+      -- root_dir = function(fname)
+      --   return vim.loop.cwd()
+      -- end,
+      -- settings = {
+      --   ['racket-langserver'] = {
+      --     ['racket-program'] = 'racket'
+      --   }
+      -- }
+    },
 
     -- update imports on file move
     update_imports_on_move = false,
@@ -191,6 +245,22 @@ local servers = {
     watch_dir = nil
   },
 }
+
+lspconfig.racket_langserver.setup {
+  cmd = { "racket", "--lib", "racket-langserver" },
+  filetypes = { "racket", "scheme" },
+  root_dir = function(fname)
+    return lspconfig.util.find_git_ancestor(fname) or vim.loop.os_homedir()
+  end,
+  settings = {
+    ['racket-langserver'] = {
+      ['racket-program'] = 'racket'
+    }
+  },
+  capabilities = capabilities,
+  on_attach = on_attach,
+}
+
 -- Setup neovim lua configuration
 require('neodev').setup({ library = { plugins = { "nvim-dap-ui" }, types = true } })
 
