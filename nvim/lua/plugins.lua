@@ -32,13 +32,13 @@ require('packer').startup(function(use)
       'ray-x/lsp_signature.nvim',
       'Hoffs/omnisharp-extended-lsp.nvim',
       'wlangstroth/vim-racket',
-      'Olical/conjure',
+      -- 'Olical/conjure',
       'dylon/vim-antlr',
       'glepnir/lspsaga.nvim',
       'jose-elias-alvarez/nvim-lsp-ts-utils',
       { 'j-hui/fidget.nvim', tag = 'legacy' },
       --for REPL
-      { 'jpalardy/vim-slime' }
+      -- { 'jpalardy/vim-slime' }
       -- { 'Vigemus/iron.nvim', tag = "v3.0" }
     }
   }
