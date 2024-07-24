@@ -1,5 +1,14 @@
 require('nvim_comment').setup()
 
+vim.api.nvim_create_augroup("comment", { clear = true })
+
+vim.api.nvim_create_autocmd({ "BufEnter", "BufFilePost" }, {
+  group = "comment",
+  pattern = { "*.tf", "*.tfvars", "*.hcl" },
+  callback = function()
+    vim.api.nvim_buf_set_option(0, "commentstring", "# %s")
+  end
+})
 -- slime stuff disabled
 -- vim.g.slime_target = "tmux"
 -- vim.g.slime_default_config = { socket_name = "default", target_pane = "{right-of}" }
@@ -60,7 +69,8 @@ require('nvim-treesitter.configs').setup {
     'vim',
     'markdown',
     'latex',
-    'scheme'
+    'scheme',
+    'terraform'
   },
 
   highlight = {
@@ -196,6 +206,7 @@ local servers = {
       telemetry = { enable = false },
     },
   },
+  terraformls = {},
   tsserver = {
     debug = false,
     disable_commands = false,
