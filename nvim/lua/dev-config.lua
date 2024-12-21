@@ -9,48 +9,13 @@ vim.api.nvim_create_autocmd({ "BufEnter", "BufFilePost" }, {
     vim.api.nvim_buf_set_option(0, "commentstring", "# %s")
   end
 })
--- slime stuff disabled
--- vim.g.slime_target = "tmux"
--- vim.g.slime_default_config = { socket_name = "default", target_pane = "{right-of}" }
--- vim.g.slime_dont_ask_default = 1
--- vim.g.slime_no_mappings = 1
--- vim.api.nvim_set_keymap('x', '<leader>sr', '<Plug>SlimeRegionSend', { noremap = true })
--- vim.api.nvim_set_keymap('n', '<leader>sr', '<Plug>SlimeParagraphSend', { noremap = true })
--- vim.api.nvim_set_keymap('n', '<leader>sl', '<Plug>SlimeLineSend', { noremap = true })
--- vim.api.nvim_set_keymap('n', '<leader>sc', '<Plug>SlimeSendCell', { noremap = true })
--- vim.api.nvim_create_autocmd("FileType", {
---   pattern = { "scheme", "racket", "lisp", "clojure" },
---   callback = function()
---     vim.b.slime_cell_delimiter = "("
---   end
--- })
+
 local lspconfig = require('lspconfig')
 
 -- Copilot settings
 vim.g.copilot_no_tab_map = true
 vim.g.copilot_assume_mapped = true
 vim.g.copilot_tab_fallback = ""
-
--- conjure settings
--- vim.g["conjure#filetypes"] = { "clojure", "fennel", "janet", "pie" } --"racket", "scheme", "sicp",
--- vim.g["conjure#filetype#pie"] = "conjure.client.racket.stdio"
--- vim.g["conjure#filetype#sicp"] = "conjure.client.racket.stdio"
--- vim.g["conjure#client#racket#stdio#command"] = "racket" --"racket -l sicp -i"
--- vim.g["conjure#highlight#enabled"] = true
-
--- File type detection for SICP
--- vim.cmd [[
---   function! s:DetectSICP()
---     if getline(1) =~# '#lang sicp'
---       set filetype=racket
---     endif
---   endfunction
---   augroup filetypedetect
---     autocmd!
---     autocmd BufRead,BufNewFile * call s:DetectSICP()
---   augroup END
---
--- ]]
 
 
 -- [[ Configure Treesitter ]]
@@ -259,20 +224,6 @@ local servers = {
   },
 }
 
--- lspconfig.racket_langserver.setup {
---   cmd = { "racket", "--lib", "racket-langserver" },
---   filetypes = { "racket", "scheme" },
---   root_dir = function(fname)
---     return lspconfig.util.find_git_ancestor(fname) or vim.loop.os_homedir()
---   end,
---   settings = {
---     ['racket-langserver'] = {
---       ['racket-program'] = 'racket'
---     }
---   },
---   capabilities = capabilities,
---   on_attach = on_attach,
--- }
 
 -- Setup neovim lua configuration
 require('neodev').setup({ library = { plugins = { "nvim-dap-ui" }, types = true } })
@@ -302,13 +253,13 @@ mason_lspconfig.setup_handlers {
   end,
 }
 
-local null_ls = require('null-ls')
-null_ls.setup({
-  sources = {
-    null_ls.builtins.diagnostics.ruff,
-    null_ls.builtins.formatting.black
-  }
-})
+-- local null_ls = require('null-ls')
+-- null_ls.setup({
+--   sources = {
+--     null_ls.builtins.diagnostics.ruff,
+--     null_ls.builtins.formatting.black
+--   }
+-- })
 
 require('fidget').setup()
 local cmp = require('cmp')

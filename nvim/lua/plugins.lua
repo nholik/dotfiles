@@ -11,35 +11,22 @@ vim.cmd [[packadd termdebug]]
 require('packer').startup(function(use)
   -- Packer can manage itself
   use 'wbthomason/packer.nvim'
+  use "folke/tokyonight.nvim"
   -- languageserver plugins
   use {
     'neovim/nvim-lspconfig',
     requires = {
       -- Automatically install LSPs to stdpath for neovim
-      {
-        'williamboman/mason.nvim',
-        opts = {
-          ensure_installed = {
-            "pyright"
-          },
-        }
-      },
+      'williamboman/mason.nvim',
       'williamboman/mason-lspconfig.nvim',
-      -- 'williamboman/nvim-lsp-installer'
-      -- Additional lua configuration, makes nvim stuff amazing
+      'mhartington/formatter.nvim',
       'folke/neodev.nvim',
-      -- additional lsp helpers
       'ray-x/lsp_signature.nvim',
       'Hoffs/omnisharp-extended-lsp.nvim',
-      'wlangstroth/vim-racket',
-      -- 'Olical/conjure',
       'dylon/vim-antlr',
       'glepnir/lspsaga.nvim',
       'jose-elias-alvarez/nvim-lsp-ts-utils',
-      { 'j-hui/fidget.nvim', tag = 'legacy' },
-      --for REPL
-      -- { 'jpalardy/vim-slime' }
-      -- { 'Vigemus/iron.nvim', tag = "v3.0" }
+      { 'j-hui/fidget.nvim', tag = 'v1.5.0' },
     }
   }
   use 'ray-x/go.nvim'
@@ -88,18 +75,8 @@ require('packer').startup(function(use)
   use 'leoluz/nvim-dap-go'
   use { "rcarriga/nvim-dap-ui", requires = { "mfussenegger/nvim-dap", "nvim-neotest/nvim-nio" } }
   use { "mxsdev/nvim-dap-vscode-js", requires = { "mfussenegger/nvim-dap" } }
-  use {
-    "microsoft/vscode-js-debug",
-    opt = true,
-    run = "npm install --legacy-peer-deps && npm run compile"
-  }
   use { "mfussenegger/nvim-dap-python", requires = { "mfussenegger/nvim-dap" } }
-  --
-  -- use to debug neovim itself
-  -- use 'jbyuki/one-small-step-for-vimkind'
   use 'nvim-telescope/telescope-dap.nvim'
-  use { 'jose-elias-alvarez/null-ls.nvim', requires = { 'nvim-lua/plenary.nvim' } }
-  -- use 'ray-x/guihua.lua' -- recommended if need floating window support
 
   if packer_bootstrap then require('packer').sync() end
 end)
