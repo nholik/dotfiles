@@ -1,9 +1,9 @@
 vim.g.loaded_netrw = 1
 vim.g.loaded_netrwPlugin = 1
-vim.g.mapleader = ' '
-vim.g.maplocalleader = ';'
-vim.o.clipboard = 'unnamedplus'
--- vim.g.dashboard_default_executive = 'telescope'
+vim.g.mapleader = " "
+vim.g.maplocalleader = ";"
+-- vim.g.have_nerd_font = true
+vim.o.clipboard = "unnamedplus"
 vim.opt.laststatus = 3
 vim.wo.number = true
 vim.o.backspace = [[indent,eol,start]]
@@ -24,10 +24,8 @@ augroup setlinenums
 augroup setlinenums END
 ]])
 
-require('plugins')
-require('utils')
-require('theme')
-require('file-manager')
-require('dev-config')
-require('telescope-config')
-require('debugger')
+vim.keymap.set("n", "<Esc>", "<cmd>nohlsearch<CR>")
+vim.keymap.set("n", "<leader>q", vim.diagnostic.setloclist, { desc = "Open diagnostic [Q]uickfix list" })
+
+require("config.lazy")
+require("utils")
