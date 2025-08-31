@@ -1,4 +1,6 @@
 return {
+	-- neoconf must come before nvim-lspconfig
+	{ "folke/neoconf.nvim" },
 	{
 		-- `lazydev` configures Lua LSP for your Neovim config, runtime and plugins
 		-- used for completion, annotations and signatures of Neovim apis
@@ -184,6 +186,20 @@ return {
 				clangd = {},
 				-- gopls = {},
 				-- pyright = {},
+				jdtls = {
+					-- settings = {
+					--   java = {
+					--     configuration = {
+					--       runtimes = {
+					--         {
+					--           name = "JavaSE-23",
+					--           path = "/usr/local/sdkman/candidates/java/23-tem",
+					--         },
+					--       },
+					--     },
+					--   },
+					-- },
+				},
 				rust_analyzer = {},
 				-- ... etc. See `:help lspconfig-all` for a list of all the pre-configured LSPs
 				--

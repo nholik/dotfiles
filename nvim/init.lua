@@ -29,3 +29,6 @@ vim.keymap.set("n", "<leader>q", vim.diagnostic.setloclist, { desc = "Open diagn
 
 require("config.lazy")
 require("utils")
+
+  vim.api.nvim_set_keymap("n", "<C-n>", ":NvimTreeToggle<CR>", { noremap = true })
+  vim.api.nvim_set_keymap("n", "<C-e>", ":NvimTreeFocus<CR>", { noremap = true })
