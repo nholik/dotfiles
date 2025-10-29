@@ -78,7 +78,16 @@ return {
 					--  This will expand snippets if the LSP sent a snippet.
 					["<C-y>"] = cmp.mapping.confirm({ select = true }),
 
-					["<Tab>"] = cmp.mapping.confirm({ select = true }),
+					["<Tab>"] = cmp.mapping(function(fallback)
+						local has_copilot, copilot = pcall(require, "copilot.suggestion")
+						if has_copilot and copilot.is_visible() then
+							copilot.accept()
+						elseif cmp.visible() then
+							cmp.confirm({ select = true })
+						else
+							fallback()
+						end
+					end, { "i", "s" }),
 					-- ['<CR>'] = cmp.mapping.confirm { select = true },
 					-- ['<Tab>'] = cmp.mapping.select_next_item(),
 					-- ['<S-Tab>'] = cmp.mapping.select_prev_item(),
