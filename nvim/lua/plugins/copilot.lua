@@ -41,57 +41,30 @@ return {
 	{
 		"nvim-lualine/lualine.nvim",
 		optional = true,
-		dependencies = { "zbirenbaum/copilot.lua" },
+		dependencies = {
+			"zbirenbaum/copilot.lua",
+			"AndreM222/copilot-lualine",
+		},
 		opts = function(_, opts)
 			opts = opts or {}
 			opts.sections = opts.sections or {}
 			opts.sections.lualine_x = opts.sections.lualine_x or {}
 
-			local component = {
-				function()
-					local ok, status = pcall(require, "copilot.status")
-					if not ok then
-						return ""
-					end
+			local has_copilot = false
+			for _, component in ipairs(opts.sections.lualine_x) do
+				if component == "copilot" then
+					has_copilot = true
+					break
+				elseif type(component) == "table" and component[1] == "copilot" then
+					has_copilot = true
+					break
+				end
+			end
 
-					local data = status.data or {}
-					local status_str = (data.status or ""):lower()
-					if status_str == "" then
-						return ""
-					end
+			if not has_copilot then
+				table.insert(opts.sections.lualine_x, 1, "copilot")
+			end
 
-					local icon = ""
-					if status_str == "inprogress" then
-						return icon .. " …"
-					elseif status_str == "warning" then
-						return icon .. " !"
-					elseif status_str == "normal" then
-						return icon
-					else
-						return icon .. " " .. data.status
-					end
-				end,
-				cond = function()
-					local clients = vim.lsp.get_active_clients({ name = "copilot" })
-					return next(clients or {}) ~= nil
-				end,
-				color = function()
-					local ok, status = pcall(require, "copilot.status")
-					if not ok then
-						return {}
-					end
-					local data = status.data or {}
-					local status_str = (data.status or ""):lower()
-					if status_str == "warning" then
-						return { fg = vim.fn.synIDattr(vim.fn.hlID("DiagnosticWarn"), "fg", "gui") }
-					elseif status_str == "inprogress" then
-						return { fg = vim.fn.synIDattr(vim.fn.hlID("DiagnosticInfo"), "fg", "gui") }
-					end
-					return {}
-				end,
-			}
-
-			table.insert(opts.sections.lualine_x, 1, component)
 			return opts
 		end,
 	},
