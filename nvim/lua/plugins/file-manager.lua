@@ -222,20 +222,33 @@ return {
 	{
 		"nvim-tree/nvim-tree.lua",
 		version = "*",
-		lazy = false,
-		dependencies = {
-		  "nvim-tree/nvim-web-devicons",
+		module = false,
+		cmd = { "NvimTreeFocus", "NvimTreeToggle" },
+		keys = {
+			{ "<C-n>", "<cmd>NvimTreeToggle<CR>", desc = "Toggle project tree" },
+			{ "<C-e>", "<cmd>NvimTreeFocus<CR>", desc = "Focus project tree" },
 		},
-		config = function()
-		  require("nvim-tree").setup {
-    view = {
-      width = 30,
-      side = 'right',
-      number = true,
-      relativenumber = false,
-      signcolumn = "yes"
-    },
-		  }
+		dependencies = { "nvim-tree/nvim-web-devicons" },
+		opts = {
+			disable_netrw = false,
+			hijack_netrw = false,
+			update_focused_file = {
+				enable = true,
+				update_root = false,
+			},
+			view = {
+				width = 30,
+				side = "right",
+				number = false,
+				relativenumber = false,
+				signcolumn = "no",
+			},
+		},
+		config = function(_, opts)
+			require("nvim-tree").setup(opts)
+
+			-- Fidget probes nvim-tree during startup; subscribe only after the tree is loaded.
+			require("fidget.integration.nvim-tree").setup()
 		end,
-	  }
+	},
 }

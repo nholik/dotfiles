@@ -2,6 +2,12 @@ return {
 	{
 		"nvim-treesitter/nvim-treesitter",
 		build = ":TSUpdate",
+		dependencies = {
+			{
+				"nvim-treesitter/nvim-treesitter-textobjects",
+				branch = "master",
+			},
+		},
 		config = function()
 			require("nvim-treesitter.configs").setup({
 				incremental_selection = {
@@ -14,7 +20,7 @@ return {
 					},
 				},
 				-- A list of parser names, or "all" (the listed parsers MUST always be installed)
-				ensure_installed = { "c", "java", "javascript", "json", "lua", "rust", "typescript" },
+				ensure_installed = { "c", "java", "javascript", "json", "lua", "python", "rust", "typescript" },
 
 				sync_install = false,
 
@@ -51,6 +57,25 @@ return {
 					-- Using this option may slow down your editor, and you may see some duplicate highlights.
 					-- Instead of true it can also be a list of languages
 					additional_vim_regex_highlighting = false,
+				},
+				textobjects = {
+					select = {
+						enable = true,
+						lookahead = true,
+						keymaps = {
+							["af"] = { query = "@function.outer", desc = "Around function" },
+							["if"] = { query = "@function.inner", desc = "Inside function" },
+							["aa"] = { query = "@parameter.outer", desc = "Around argument" },
+							["ia"] = { query = "@parameter.inner", desc = "Inside argument" },
+							["ac"] = { query = "@class.outer", desc = "Around class" },
+							["ic"] = { query = "@class.inner", desc = "Inside class" },
+						},
+						selection_modes = {
+							["@parameter.outer"] = "v",
+							["@function.outer"] = "V",
+							["@class.outer"] = "V",
+						},
+					},
 				},
 			})
 		end,

@@ -58,6 +58,32 @@ return {
 					end,
 				},
 				completion = { completeopt = "menu,menuone,noinsert" },
+				window = {
+					completion = cmp.config.window.bordered({
+						side_padding = 1,
+						scrollbar = true,
+						winhighlight = "Normal:Pmenu,FloatBorder:FloatBorder,CursorLine:PmenuSel,Search:None",
+					}),
+					documentation = vim.tbl_extend(
+						"force",
+						cmp.config.window.bordered({
+							winhighlight = "Normal:NormalFloat,FloatBorder:FloatBorder,CursorLine:Visual,Search:None",
+						}),
+						{
+							max_width = 60,
+							max_height = 14,
+						}
+					),
+				},
+				formatting = {
+					fields = { "abbr", "kind" },
+					format = function(_, item)
+						if vim.fn.strdisplaywidth(item.abbr) > 42 then
+							item.abbr = vim.fn.strcharpart(item.abbr, 0, 41) .. "…"
+						end
+						return item
+					end,
+				},
 
 				-- For an understanding of why these mappings were
 				-- chosen, you will need to read `:help ins-completion`
@@ -79,18 +105,24 @@ return {
 					["<C-y>"] = cmp.mapping.confirm({ select = true }),
 
 					["<Tab>"] = cmp.mapping(function(fallback)
-						local has_copilot, copilot = pcall(require, "copilot.suggestion")
-						if has_copilot and copilot.is_visible() then
-							copilot.accept()
-						elseif cmp.visible() then
-							cmp.confirm({ select = true })
+						if cmp.visible() then
+							cmp.select_next_item()
+						elseif luasnip.expand_or_locally_jumpable() then
+							luasnip.expand_or_jump()
+						else
+							fallback()
+						end
+					end, { "i", "s" }),
+					["<S-Tab>"] = cmp.mapping(function(fallback)
+						if cmp.visible() then
+							cmp.select_prev_item()
+						elseif luasnip.locally_jumpable(-1) then
+							luasnip.jump(-1)
 						else
 							fallback()
 						end
 					end, { "i", "s" }),
 					-- ['<CR>'] = cmp.mapping.confirm { select = true },
-					-- ['<Tab>'] = cmp.mapping.select_next_item(),
-					-- ['<S-Tab>'] = cmp.mapping.select_prev_item(),
 
 					-- Manually trigger a completion from nvim-cmp.
 					--  Generally you don't need this, because nvim-cmp will display

@@ -1,12 +1,84 @@
+local function terminal_cwd()
+	local root = Snacks.git.get_root()
+	if root then
+		return root
+	end
+
+	local file = vim.api.nvim_buf_get_name(0)
+	if file ~= "" and vim.bo.buftype == "" then
+		file = vim.fs.normalize(file)
+		local scratch_root = vim.fs.normalize(vim.fn.stdpath("data") .. "/scratch") .. "/"
+		if file:sub(1, #scratch_root) == scratch_root then
+			for _, scratch in ipairs(Snacks.scratch.list()) do
+				if scratch.file == file and scratch.cwd then
+					return scratch.cwd
+				end
+			end
+		end
+		return vim.fs.dirname(file)
+	end
+
+	return (vim.uv or vim.loop).cwd()
+end
+
+local function project_picker()
+	Snacks.picker.projects({
+		dev = {},
+		confirm = { "tcd", "picker_files" },
+	})
+end
+
 return {
 	"folke/snacks.nvim",
 	priority = 1000,
 	lazy = false,
 	opts = {
 		bigfile = { enabled = true },
-		dashboard = { enabled = true },
+		dashboard = {
+			enabled = true,
+			width = 54,
+			preset = {
+				header = "question  →  experiment  →  result",
+				keys = {
+					{ icon = "󰉋 ", key = "p", desc = "Projects", action = project_picker },
+					{
+						icon = " ",
+						key = "r",
+						desc = "Recent Files",
+						action = function()
+							Snacks.dashboard.pick("oldfiles")
+						end,
+					},
+					{
+						icon = "󰩫 ",
+						key = "s",
+						desc = "Scratch",
+						action = function()
+							Snacks.scratch()
+						end,
+					},
+					{ icon = " ", key = "n", desc = "New File", action = ":ene | startinsert" },
+					{
+						icon = " ",
+						key = "f",
+						desc = "Find File",
+						action = function()
+							Snacks.dashboard.pick("files")
+						end,
+					},
+					{ icon = " ", key = "q", desc = "Quit", action = ":qa" },
+				},
+			},
+			sections = {
+				{ section = "header", padding = 1 },
+				{ section = "keys", gap = 1, padding = 1 },
+				{ icon = "󰉋 ", title = "Projects", section = "projects", indent = 2, limit = 4, padding = 1 },
+				{ icon = " ", title = "Recent Files", section = "recent_files", indent = 2, limit = 4 },
+			},
+		},
 		indent = { enabled = true },
 		input = { enabled = true },
+		picker = { enabled = true },
 		notifier = {
 			enabled = true,
 			timeout = 3000,
@@ -14,6 +86,17 @@ return {
 		quickfile = { enabled = true },
 		scroll = { enabled = true },
 		statuscolumn = { enabled = true },
+		terminal = {
+			win = {
+				position = "bottom",
+				relative = "win",
+				height = 0.3,
+				wo = {
+					winbar = " 󰆍  %{get(b:, 'term_title', 'Terminal')}",
+					winfixheight = true,
+				},
+			},
+		},
 		words = { enabled = true },
 		styles = {
 			notification = {
@@ -22,6 +105,32 @@ return {
 		},
 	},
 	keys = {
+		{
+			"<leader>sp",
+			project_picker,
+			desc = "Search Recent Projects",
+		},
+		{
+			"<leader>su",
+			function()
+				Snacks.picker.undo()
+			end,
+			desc = "Search Undo History",
+		},
+		{
+			'<leader>s"',
+			function()
+				Snacks.picker.registers()
+			end,
+			desc = "Search Registers",
+		},
+		{
+			"<leader>sj",
+			function()
+				Snacks.picker.jumps()
+			end,
+			desc = "Search Jumplist",
+		},
 		{
 			"<leader>z",
 			function()
@@ -117,14 +226,14 @@ return {
 		{
 			"<c-/>",
 			function()
-				Snacks.terminal()
+				Snacks.terminal(nil, { cwd = terminal_cwd() })
 			end,
-			desc = "Toggle Terminal",
+			desc = "Toggle Project Terminal",
 		},
 		{
 			"<c-_>",
 			function()
-				Snacks.terminal()
+				Snacks.terminal(nil, { cwd = terminal_cwd() })
 			end,
 			desc = "which_key_ignore",
 		},
