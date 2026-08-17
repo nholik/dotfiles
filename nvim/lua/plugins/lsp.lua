@@ -1,6 +1,4 @@
 return {
-	-- neoconf must come before nvim-lspconfig
-	{ "folke/neoconf.nvim" },
 	{
 		-- `lazydev` configures Lua LSP for your Neovim config, runtime and plugins
 		-- used for completion, annotations and signatures of Neovim apis
@@ -19,7 +17,7 @@ return {
 		"neovim/nvim-lspconfig",
 		dependencies = {
 			-- Automatically install LSPs and related tools to stdpath for Neovim
-			{ "williamboman/mason.nvim", config = true }, -- NOTE: Must be loaded before dependants
+			{ "williamboman/mason.nvim", opts = { PATH = "append" } },
 			"williamboman/mason-lspconfig.nvim",
 			"WhoIsSethDaniel/mason-tool-installer.nvim",
 
@@ -60,6 +58,8 @@ return {
 			--    That is to say, every time a new file is opened that is associated with
 			--    an lsp (for example, opening `main.rs` is associated with `rust_analyzer`) this
 			--    function will be executed to configure the current buffer
+			local document_highlight_group = vim.api.nvim_create_augroup("kickstart-lsp-highlight", { clear = true })
+
 			vim.api.nvim_create_autocmd("LspAttach", {
 				group = vim.api.nvim_create_augroup("kickstart-lsp-attach", { clear = true }),
 				callback = function(event)
@@ -121,37 +121,46 @@ return {
 					-- When you move your cursor, the highlights will be cleared (the second autocommand).
 					local client = vim.lsp.get_client_by_id(event.data.client_id)
 					if client and client.supports_method(vim.lsp.protocol.Methods.textDocument_documentHighlight) then
-						local highlight_augroup =
-							vim.api.nvim_create_augroup("kickstart-lsp-highlight", { clear = false })
+						vim.api.nvim_clear_autocmds({ group = document_highlight_group, buffer = event.buf })
 						vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
 							buffer = event.buf,
-							group = highlight_augroup,
+							group = document_highlight_group,
 							callback = vim.lsp.buf.document_highlight,
 						})
 
 						vim.api.nvim_create_autocmd({ "CursorMoved", "CursorMovedI" }, {
 							buffer = event.buf,
-							group = highlight_augroup,
+							group = document_highlight_group,
 							callback = vim.lsp.buf.clear_references,
 						})
 
 						vim.api.nvim_create_autocmd("LspDetach", {
-							group = vim.api.nvim_create_augroup("kickstart-lsp-detach", { clear = true }),
-							callback = function(event2)
-								vim.lsp.buf.clear_references()
-								vim.api.nvim_clear_autocmds({ group = "kickstart-lsp-highlight", buffer = event2.buf })
+							buffer = event.buf,
+							group = document_highlight_group,
+							callback = function(detach_event)
+								vim.schedule(function()
+									if not vim.api.nvim_buf_is_valid(detach_event.buf) then
+										return
+									end
+
+									for _, attached_client in ipairs(vim.lsp.get_clients({ bufnr = detach_event.buf })) do
+										if
+											attached_client.supports_method(
+												vim.lsp.protocol.Methods.textDocument_documentHighlight
+											)
+										then
+											return
+										end
+									end
+
+									vim.lsp.buf.clear_references()
+									vim.api.nvim_clear_autocmds({
+										group = document_highlight_group,
+										buffer = detach_event.buf,
+									})
+								end)
 							end,
 						})
-					end
-
-					-- The following code creates a keymap to toggle inlay hints in your
-					-- code, if the language server you are using supports them
-					--
-					-- This may be unwanted, since they displace some of your code
-					if client and client.supports_method(vim.lsp.protocol.Methods.textDocument_inlayHint) then
-						map("<leader>th", function()
-							vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled({ bufnr = event.buf }))
-						end, "[T]oggle Inlay [H]ints")
 					end
 				end,
 			})
@@ -163,7 +172,13 @@ return {
 			for type, icon in pairs(signs) do
 				diagnostic_signs[vim.diagnostic.severity[type]] = icon
 			end
-			vim.diagnostic.config({ signs = { text = diagnostic_signs } })
+			vim.diagnostic.config({
+				signs = { text = diagnostic_signs },
+				underline = true,
+				update_in_insert = false,
+				virtual_lines = false,
+				virtual_text = false,
+			})
 			-- end
 
 			-- LSP servers and clients are able to communicate to each other what features they support.
@@ -185,7 +200,6 @@ return {
 			local servers = {
 				clangd = {},
 				-- gopls = {},
-				-- pyright = {},
 				jdtls = {
 					-- settings = {
 					--   java = {
@@ -199,6 +213,13 @@ return {
 					--     },
 					--   },
 					-- },
+				},
+				pyright = {},
+				ruff = {
+					on_attach = function(client)
+						-- Pyright provides the richer hover information when both clients attach.
+						client.server_capabilities.hoverProvider = false
+					end,
 				},
 				rust_analyzer = {},
 				-- ... etc. See `:help lspconfig-all` for a list of all the pre-configured LSPs
@@ -226,16 +247,8 @@ return {
 				},
 			}
 
-			-- Ensure the servers and tools above are installed
-			--  To check the current status of installed tools and/or manually install
-			--  other tools, you can run
-			--    :Mason
-			--
-			--  You can press `g?` for help in this menu.
-			require("mason").setup()
-
-			-- You can add other tools here that you want Mason to install
-			-- for you, so that they are available from within Neovim.
+			-- Ensure the servers above and the explicitly listed tools are installed.
+			-- Use :Mason to inspect or manage additional tools manually.
 			local ensure_installed = vim.tbl_keys(servers or {})
 			vim.list_extend(ensure_installed, {
 				"stylua",
